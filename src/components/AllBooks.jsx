@@ -23,7 +23,15 @@ function AllBooks({ books }) {
           handleSignUp={handleSignUp}
         />
       </header>
-      <h2 id="title">Library</h2>
+      <div className="contain">
+        <div className="search">
+          <input
+            type="text"
+            placeholder="Search for a book..."
+            onChange={(e) => setSearchParams(e.target.value.toLowerCase())}
+          />
+        </div>
+      </div>
       <div className="books-container">
         {filteredBooks.map((book) => (
           <div

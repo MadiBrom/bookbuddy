@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { fetchSingleBook } from "../API";
 import { useParams, Link } from "react-router-dom";
 import NavBar from "./NavBar";
+import { useCart } from "./CartContext";
+import { checkBookAvailability } from "../API";
 
 function SingleBook() {
   const { id } = useParams();
@@ -9,6 +11,20 @@ function SingleBook() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState([]);
+  const { addToCart } = useCart();
+
+  function handleCheckout() {
+    addToCart(book);
+    alert("Book added to cart!");
+    setCart((prevCart) => [...prevCart, book]);
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      alert("You must be logged in to add items to the cart.");
+      navigate("/login");
+      return;
+    }
+  }
 
   useEffect(() => {
     async function getBook() {
@@ -24,10 +40,20 @@ function SingleBook() {
     getBook();
   }, [id]);
 
-  const handleAddToCart = () => {
-    setCart((prevCart) => [...prevCart, book]);
-    alert("Book added to cart!");
-  };
+  async function handleCheckout() {
+    try {
+      const isAvailable = await checkBookAvailability(book.id);
+
+      if (isAvailable) {
+        addToCart(book);
+        alert("Book added to cart!");
+      } else {
+        alert("Sorry, this book is not available at the moment.");
+      }
+    } catch (error) {
+      alert("An error occurred while trying to add the book to the cart.");
+    }
+  }
 
   if (loading) {
     return <p>Loading book information...</p>;
@@ -44,7 +70,6 @@ function SingleBook() {
   return (
     <div className="single-book-page">
       <NavBar
-        setSearchParams={(params) => console.log(params)}
         handleLogin={(email, password) => Promise.resolve("authToken")}
         handleSignUp={(first, last, email, password) =>
           Promise.resolve("token")
@@ -65,7 +90,7 @@ function SingleBook() {
           <Link to="/">
             <button className="back-button">Back</button>
           </Link>
-          <button className="add-cart" onClick={handleAddToCart}>
+          <button className="add-cart" onClick={handleCheckout}>
             Checkout
           </button>
         </div>

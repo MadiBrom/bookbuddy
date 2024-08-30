@@ -1,24 +1,29 @@
 import React from "react";
+import { useCart } from "./CartContext";
+import { Link } from "react-router-dom";
 
-const Cart = ({ cart }) => {
+function Cart() {
+  const { cart } = useCart();
+
   return (
-    <div className="cart-container">
+    <div className="cart">
       <h2>Your Cart</h2>
       {cart.length === 0 ? (
-        <p>Your cart is empty</p>
+        <p>Your cart is empty.</p>
       ) : (
         <ul>
           {cart.map((book, index) => (
             <li key={index}>
-              <h3>{book.title}</h3>
-              <p>Author: {book.author}</p>
-              <p> {book.available ? "Available" : "Not Available"}</p>
+              {book.title} by {book.author}
             </li>
           ))}
         </ul>
       )}
+      <Link to="/">
+        <button className="back-button">Back</button>
+      </Link>
     </div>
   );
-};
+}
 
 export default Cart;

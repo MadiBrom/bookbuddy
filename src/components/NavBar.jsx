@@ -1,4 +1,7 @@
+// NavBar.js
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "./CartContext";
 
 function NavBar({ setSearchParams, handleLogin, handleSignUp }) {
   const [showModal, setShowModal] = useState(false);
@@ -10,22 +13,25 @@ function NavBar({ setSearchParams, handleLogin, handleSignUp }) {
     password: "",
   });
 
-  const openModal = (signUp = false) => {
+  const { getCartCount } = useCart();
+  const navigate = useNavigate();
+
+  function openModal(signUp = false) {
     setIsSignUp(signUp);
     setShowModal(true);
-  };
+  }
 
-  const closeModal = () => {
+  function closeModal() {
     setShowModal(false);
-  };
+  }
 
-  const handleInputChange = (e) => {
+  function handleInputChange(e) {
     const { name, value } = e.target;
     setLoginData({
       ...loginData,
       [name]: value,
     });
-  };
+  }
 
   async function handleLoginSubmit(e) {
     e.preventDefault();
@@ -65,17 +71,18 @@ function NavBar({ setSearchParams, handleLogin, handleSignUp }) {
     }
   }
 
+  const handleCartClick = () => {
+    navigate("/cart");
+    console.log("Cart clicked");
+  };
+
   return (
     <nav className="navbar">
+      <h2 id="title">Book Store</h2>
       <div className="search">
-        <label>
-          Search:
-          <input
-            type="text"
-            placeholder="Search for a book..."
-            onChange={(e) => setSearchParams(e.target.value.toLowerCase())}
-          />
-        </label>
+        <button onClick={handleCartClick} className="cart-button">
+          Cart ({getCartCount()})
+        </button>
 
         <button onClick={() => openModal()}>Log In / Sign Up</button>
       </div>
@@ -155,7 +162,7 @@ function NavBar({ setSearchParams, handleLogin, handleSignUp }) {
                 </label>
                 <button type="submit">Log In</button>
                 <p>
-                  Don't have an account?{" "}
+                  Don't have an account?
                   <span onClick={() => openModal(true)}>Sign Up</span>
                 </p>
               </form>

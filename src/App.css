@@ -1,4 +1,4 @@
-/* Global styles */
+/* Global Styles */
 body {
   margin: 0;
   background-image: url(https://www.pixelstalk.net/wp-content/uploads/2016/08/Old-Library-Wallpaper.jpg);
@@ -7,25 +7,17 @@ body {
   background-attachment: fixed;
 }
 
-#title {
-  color: rgb(255, 244, 239);
-  text-shadow: 5px 5px 20px rgb(34, 34, 34);
-  font-size: 100px;
-  margin-bottom: 10px;
-  margin-top: 120px;
-  text-decoration: underline;
-  text-align: center;
-}
-
+/* Books Container */
 .books-container {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
   align-items: center;
+  margin-top: 120px;
 }
 
-/* Navbar styles */
+/* Navbar Styles */
 .navbar {
   color: white;
   background: rgba(32, 10, 1, 0.637);
@@ -45,27 +37,7 @@ body {
   z-index: 1000;
 }
 
-.navbar .search {
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-}
-
-.navbar .search input {
-  padding: 10px 15px;
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  border-radius: 5px;
-  outline: none;
-  font-size: 16px;
-  transition: border-color 0.3s ease;
-  color: #333;
-}
-
-.navbar .search input:focus {
-  border-color: rgba(240, 202, 178, 0.9);
-}
-
+/* Navbar Buttons */
 .navbar button {
   margin-left: 10px;
   padding: 10px 20px;
@@ -82,6 +54,7 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+/* Navbar Links */
 .navbar .nav-links {
   display: flex;
   gap: 20px;
@@ -98,22 +71,12 @@ body {
   color: rgba(240, 202, 178, 0.9);
 }
 
-/* Responsive adjustments */
+/* Responsive Navbar Adjustments */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
     align-items: stretch;
     padding: 10px;
-  }
-
-  .navbar .search {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .navbar .search input {
-    width: calc(100% - 130px); /* Adjust width considering button space */
-    margin-right: 10px;
   }
 
   .navbar button {
@@ -129,7 +92,7 @@ body {
   }
 }
 
-/* Book card styles */
+/* Book Card Styles */
 .book-card {
   display: flex;
   flex-direction: column;
@@ -148,6 +111,7 @@ body {
   transform: scale(1.05);
 }
 
+/* Book Card Image */
 .book-card img {
   width: 100px;
   height: 150px;
@@ -157,6 +121,7 @@ body {
   margin-top: 15px;
 }
 
+/* Book Card Text */
 .book-card h3 {
   margin: 10px 0 5px;
   font-size: 18px;
@@ -167,12 +132,14 @@ body {
   font-size: 14px;
 }
 
-/* Responsive Bookcard styles */
+/* Responsive Book Card Styles */
 .bookcard {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-bottom: 10px;
   background-color: #705240c0;
   box-shadow: 5px 10px 10px black;
   color: #d8d8d8;
@@ -181,9 +148,10 @@ body {
   max-width: 500px;
   width: 90%;
   border-radius: 20px;
-  margin-top: ;
+  margin-top: 15px;
 }
 
+/* Responsive Book Card Image */
 .bookcard img {
   width: 80%;
   max-width: 200px;
@@ -195,6 +163,7 @@ body {
   box-shadow: 2px 5px 5px black;
 }
 
+/* Book Details */
 #titles {
   font-size: 40px;
   color: rgb(253, 240, 240);
@@ -220,15 +189,8 @@ body {
   text-shadow: 2px 2px 3px black;
 }
 
-.back-button {
-  background-color: rgba(240, 202, 178, 0.637);
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-radius: 10px;
-  box-shadow: 2px 2px 5px black;
-}
+/* Buttons */
+.back-button,
 .add-cart {
   background-color: rgba(240, 202, 178, 0.637);
   padding-left: 20px;
@@ -240,7 +202,7 @@ body {
   margin-top: 10px;
 }
 
-/* Centering .bookcard */
+/* Centering Book Card */
 .book-container {
   display: flex;
   justify-content: center;
@@ -250,7 +212,7 @@ body {
   box-sizing: border-box;
 }
 
-/* Responsive adjustments */
+/* Responsive Book Card Adjustments */
 @media (max-width: 768px) {
   .bookcard {
     width: 100%;
@@ -262,7 +224,7 @@ body {
   }
 }
 
-/* NavBar.css */
+/* Modal Overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -276,6 +238,7 @@ body {
   z-index: 1000;
 }
 
+/* Modal Content */
 .modal-content {
   background: #664539;
   padding: 30px;
@@ -293,6 +256,7 @@ body {
   color: #333;
 }
 
+/* Modal Form Elements */
 .modal-content label {
   display: block;
   margin-bottom: 10px;
@@ -306,6 +270,7 @@ body {
   border-radius: 5px;
 }
 
+/* Modal Buttons */
 .modal-content button {
   background-color: #189100;
   color: white;
@@ -321,6 +286,7 @@ body {
   background-color: #006110;
 }
 
+/* Modal Text */
 .modal-content p {
   margin: 10px 0 0;
   font-size: 0.9rem;
@@ -336,7 +302,8 @@ body {
   text-decoration: none;
 }
 
-.close-button {
+/* Close Modal Button */
+.close-modal {
   position: relative;
   top: 10px;
   right: 10px;
@@ -353,10 +320,77 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.close-button:hover {
+.close-modal:hover {
   background-color: #e0e0e0;
 }
 
-.close-button:focus {
+/* Container */
+.contain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 90px;
+  margin-bottom: -100px;
+}
+
+/* Search Input */
+.search input {
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 25px;
+  width: 300px;
+  font-size: 16px;
   outline: none;
+  transition: border-color 0.3s ease;
+}
+
+/* Title */
+#title {
+  color: white;
+  font-size: 30px;
+  margin: 5px;
+}
+
+/* Cart Styles */
+.cart {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.cart h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Cart Text */
+.cart p {
+  font-size: 18px;
+  color: #666;
+}
+
+/* Cart List */
+.cart ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.cart ul li {
+  background-color: #fff;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  color: #444;
+}
+
+.cart ul li:last-child {
+  margin-bottom: 0;
 }

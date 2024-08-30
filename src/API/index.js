@@ -96,3 +96,14 @@ export async function handleSignUp(first, last, email, password) {
   const { token } = await response.json();
   return token;
 }
+
+export async function checkBookAvailability(id) {
+  try {
+    const response = await fetch(`${API_URL}/${id}`);
+    const data = await response.json();
+    return data.book && data.book.available;
+  } catch (error) {
+    console.error("Error checking book availability:", error);
+    throw error;
+  }
+}

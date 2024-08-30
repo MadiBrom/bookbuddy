@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import AllBooks from "./components/AllBooks";
 import SingleBook from "./components/SingleBook";
+import Cart from "./components/Cart";
 import { fetchAllBooks } from "./API";
 import "./App.css";
 
@@ -33,6 +34,7 @@ function App() {
           element={<AllBooks books={books} searchParams={searchParams} />}
         />
         <Route path="/books/:id" element={<SingleBook />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </div>
   );
