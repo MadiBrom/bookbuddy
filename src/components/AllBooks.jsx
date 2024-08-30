@@ -23,6 +23,7 @@ function AllBooks({ books }) {
           handleSignUp={handleSignUp}
         />
       </header>
+
       <h2 id="title">Library</h2>
       <div className="books-container">
         {filteredBooks.map((book) => (
@@ -38,12 +39,6 @@ function AllBooks({ books }) {
                 alt={book.title}
                 className="bookcard-img"
               />
-              <div className="book-card-details">
-                <h5 className="book-card-author">Author: {book.author}</h5>
-                <p className="book-card-availability">
-                  Available: {book.available ? "Yes" : "No"}
-                </p>
-              </div>
             </div>
           </div>
         ))}
