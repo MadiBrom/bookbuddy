@@ -12,7 +12,7 @@ const Cart = ({ cart }) => {
             <li key={index}>
               <h3>{book.title}</h3>
               <p>Author: {book.author}</p>
-              <p>Available? {book.available ? "Yes" : "No"}</p>
+              <p> {book.available ? "Available" : "Not Available"}</p>
             </li>
           ))}
         </ul>

@@ -1,25 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { fetchSingleBook } from "../API";
 import { useParams, Link } from "react-router-dom";
-import Cart from "./Cart";
-import Modal from "./Modal"; // Import the Modal component
+import NavBar from "./NavBar";
 
 function SingleBook() {
   const { id } = useParams();
   const [book, setBook] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [cart, setCart] = useState([]);
-  const [showModal, setShowModal] = useState(false); // State to control modal visibility
-
-  const addToCart = (book) => {
-    setCart((prevCart) => [...prevCart, book]);
-    setShowModal(true); // Show the modal when a book is added
-  };
-
-  const toggleModal = () => {
-    setShowModal(!showModal);
-  };
+  const [cart, setCart] = useState([]); // Cart state
 
   useEffect(() => {
     async function getBook() {
@@ -27,14 +16,18 @@ function SingleBook() {
         const bookData = await fetchSingleBook(id);
         setBook(bookData);
       } catch (error) {
-        console.error("Error fetching book:", error);
-        setError("Failed to fetch book details. Please try again later.");
+        setError(error.message);
       } finally {
         setLoading(false);
       }
     }
     getBook();
   }, [id]);
+
+  const handleAddToCart = () => {
+    setCart((prevCart) => [...prevCart, book]);
+    alert("Book added to cart!");
+  };
 
   if (loading) {
     return <p>Loading book information...</p>;
@@ -49,26 +42,35 @@ function SingleBook() {
   }
 
   return (
-    <div className="book-container">
-      <header>
-        <button onClick={toggleModal}>View Cart ({cart.length})</button>
-      </header>
-
-      <div className="bookcard">
-        <h2>{book.title}</h2>
-        <h4>Author: {book.author}</h4>
-        <p>Available? {book.available ? "Yes" : "No"}</p>
-        <img src={book.coverimage} alt={book.title} />
-        <p>{book.description}</p>
-        <button onClick={() => addToCart(book)}>Add to Cart</button>
-        <Link to="/">
-          <button>Back</button>
-        </Link>
+    <div className="single-book-page">
+      <NavBar
+        setSearchParams={(params) => console.log(params)} // Placeholder function, replace as needed
+        handleLogin={(email, password) => Promise.resolve("fake-token")} // Replace with actual login function
+        handleSignUp={(first, last, email, password) =>
+          Promise.resolve("fake-token")
+        } // Replace with actual sign-up function
+      />
+      <div className="book-container">
+        <div className="bookcard">
+          <h2 id="titles">{book.title}</h2>
+          <div id="info">
+            <label htmlFor=""></label>
+            <h4 id="author">by {book.author}</h4>
+            <p id="available">
+              {" "}
+              {book.available ? "Available" : "Not Available"}
+            </p>
+          </div>
+          <img id="img" src={book.coverimage} alt={book.title} />
+          <p id="description">{book.description}</p>
+          <Link to="/">
+            <button className="back-button">Back</button>
+          </Link>
+          <button className="add-cart" onClick={handleAddToCart}>
+            Checkout
+          </button>
+        </div>
       </div>
-
-      <Modal show={showModal} onClose={toggleModal}>
-        <Cart cart={cart} />
-      </Modal>
     </div>
   );
 }
