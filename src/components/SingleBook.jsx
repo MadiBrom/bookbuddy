@@ -8,7 +8,7 @@ function SingleBook() {
   const [book, setBook] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [cart, setCart] = useState([]); // Cart state
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     async function getBook() {
@@ -44,11 +44,11 @@ function SingleBook() {
   return (
     <div className="single-book-page">
       <NavBar
-        setSearchParams={(params) => console.log(params)} // Placeholder function, replace as needed
-        handleLogin={(email, password) => Promise.resolve("fake-token")} // Replace with actual login function
+        setSearchParams={(params) => console.log(params)}
+        handleLogin={(email, password) => Promise.resolve("authToken")}
         handleSignUp={(first, last, email, password) =>
-          Promise.resolve("fake-token")
-        } // Replace with actual sign-up function
+          Promise.resolve("token1")
+        }
       />
       <div className="book-container">
         <div className="bookcard">
@@ -57,7 +57,6 @@ function SingleBook() {
             <label htmlFor=""></label>
             <h4 id="author">by {book.author}</h4>
             <p id="available">
-              {" "}
               {book.available ? "Available" : "Not Available"}
             </p>
           </div>
