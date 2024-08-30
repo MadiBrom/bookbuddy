@@ -167,7 +167,7 @@ function NavBar({ setSearchParams, handleLogin, handleSignUp }) {
                 </p>
               </form>
             )}
-            <button className="close-modal" onClick={closeModal}>
+            <button id="close-modal" onClick={closeModal}>
               X
             </button>
           </div>
