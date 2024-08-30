@@ -47,7 +47,7 @@ function SingleBook() {
         setSearchParams={(params) => console.log(params)}
         handleLogin={(email, password) => Promise.resolve("authToken")}
         handleSignUp={(first, last, email, password) =>
-          Promise.resolve("token1")
+          Promise.resolve("token")
         }
       />
       <div className="book-container">
