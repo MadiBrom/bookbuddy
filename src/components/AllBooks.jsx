@@ -45,9 +45,6 @@ function AllBooks({ books, searchParams, setSearchParams }) {
                 />
                 <div className="book-card-details">
                   <h5 className="book-card-author">Author: {book.author}</h5>
-                  <p className="book-card-availability">
-                    Available: {book.available ? "Yes" : "No"}
-                  </p>
                 </div>
               </div>
             </div>
