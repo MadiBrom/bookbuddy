@@ -49,7 +49,7 @@ export async function fetchBooks() {
     }
 
     const data = await response.json();
-    return data.books; // Adjust based on API response structure
+    return data.books;
   } catch (error) {
     console.error("Error fetching books with token:", error);
     throw error;

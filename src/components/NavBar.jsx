@@ -1,7 +1,8 @@
-// NavBar.js
+// src/components/NavBar.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
+import { AuthProvider } from "./AuthContext";
 
 function NavBar({ setSearchParams, handleLogin, handleSignUp }) {
   const [showModal, setShowModal] = useState(false);
@@ -13,7 +14,8 @@ function NavBar({ setSearchParams, handleLogin, handleSignUp }) {
     password: "",
   });
 
-  const { getCartCount } = useCart();
+  const { getCartCount, cart } = useCart();
+  const { logout } = AuthProvider();
   const navigate = useNavigate();
 
   function openModal(signUp = false) {
@@ -76,6 +78,11 @@ function NavBar({ setSearchParams, handleLogin, handleSignUp }) {
     console.log("Cart clicked");
   };
 
+  const handleLogOutClick = () => {
+    logout();
+    console.log("Logged out successfully");
+  };
+
   return (
     <nav className="navbar">
       <h2 id="title">Book Store</h2>
@@ -85,6 +92,7 @@ function NavBar({ setSearchParams, handleLogin, handleSignUp }) {
         </button>
 
         <button onClick={() => openModal()}>Log In / Sign Up</button>
+        <button onClick={handleLogOutClick}>Logout</button>
       </div>
 
       {showModal && (
@@ -132,11 +140,13 @@ function NavBar({ setSearchParams, handleLogin, handleSignUp }) {
                     required
                   />
                 </label>
-                <button type="submit">Sign Up</button>
-                <p>
-                  Already have an account?{" "}
-                  <span onClick={() => openModal(false)}>Log In</span>
-                </p>
+                <div className="login-actions">
+                  <button type="submit">Sign Up</button>
+                  <p>
+                    Already have an account?{" "}
+                    <span onClick={() => openModal(false)}>Log In</span>
+                  </p>
+                </div>
               </form>
             ) : (
               <form onSubmit={handleLoginSubmit}>
@@ -160,11 +170,13 @@ function NavBar({ setSearchParams, handleLogin, handleSignUp }) {
                     required
                   />
                 </label>
-                <button type="submit">Log In</button>
-                <p>
-                  Don't have an account?
-                  <span onClick={() => openModal(true)}>Sign Up</span>
-                </p>
+                <div className="login-actions">
+                  <button type="submit">Log In</button>
+                  <p>
+                    Don't have an account?{" "}
+                    <span onClick={() => openModal(true)}>Sign Up</span>
+                  </p>
+                </div>
               </form>
             )}
             <button id="close-modal" onClick={closeModal}>

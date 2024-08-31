@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 import { handleLogin, handleSignUp } from "../API";
@@ -11,9 +11,20 @@ function AllBooks({ books }) {
     book.title.toLowerCase().includes(searchParams.toLowerCase())
   );
 
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    !!localStorage.getItem("authToken")
+  );
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    setIsAuthenticated(false);
+    navigate("/login");
+  };
+
   function handleClick(id) {
     navigate(`/books/${id}`);
   }
+
   return (
     <div className="App">
       <header>
@@ -21,6 +32,7 @@ function AllBooks({ books }) {
           setSearchParams={setSearchParams}
           handleLogin={handleLogin}
           handleSignUp={handleSignUp}
+          handleLogout={handleLogout}
         />
       </header>
       <div className="contain">

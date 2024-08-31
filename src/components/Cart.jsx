@@ -7,6 +7,7 @@ function Cart() {
 
   return (
     <div className="cart">
+      <h1 id="title">Welcome (USER)</h1>
       <h2>Your Cart</h2>
       {cart.length === 0 ? (
         <p>Your cart is empty.</p>
