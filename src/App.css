@@ -137,18 +137,16 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-right: 15px;
-  padding-left: 15px;
-  padding-bottom: 10px;
+  justify-content: center;
+  padding: 20px;
   background-color: #705240c0;
-  box-shadow: 5px 10px 10px black;
+  box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.6);
   color: #d8d8d8;
   text-align: center;
-  transition: transform 0.3s ease;
-  max-width: 500px;
-  width: 90%;
-  border-radius: 20px;
-  margin-top: 15px;
+  border-radius: 15px;
+  max-width: 800px;
+  width: 100%;
+  margin: auto;
 }
 
 /* Responsive Book Card Image */
@@ -168,7 +166,7 @@ body {
   font-size: 40px;
   color: rgb(253, 240, 240);
   text-shadow: 3px 3px 5px black;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 
 #info {
@@ -180,6 +178,7 @@ body {
   line-height: 0.5;
   color: rgb(255, 227, 227);
   text-shadow: 2px 2px 3px black;
+  margin-bottom: 20px;
 }
 
 #description {
@@ -187,6 +186,11 @@ body {
   margin-top: 10px;
   color: rgb(255, 227, 227);
   text-shadow: 2px 2px 3px black;
+  margin-bottom: 120px;
+  object-fit: cover;
+  max-width: 500px; /* Limit the width of the description */
+  margin: 0 auto; /* Center the description text */
+  text-align: center; /* Center text within the description */
 }
 
 /* Buttons */
@@ -207,9 +211,23 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  padding-top: 60px;
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  padding: 20px;
   box-sizing: border-box;
+  overflow: auto; /* Allow scrolling if necessary */
+}
+
+#describe {
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* Vertically centers the image and text */
+  justify-content: center; /* Horizontally centers the image and text */
+  text-align: center; /* Centers the text inside the description */
+  margin-top: 20px;
+  gap: 20px; /* Space between the image and description */
+  max-width: 100%;
+  margin-bottom: 30px;
 }
 
 /* Responsive Book Card Adjustments */
@@ -357,15 +375,40 @@ body {
 }
 
 /* Cart Styles */
+/* Centering Cart Container */
+.cart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: auto; /* Allow scrolling if necessary */
+}
+
+/* Existing Cart Styles */
+/* Centering Cart Container */
+.cart-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100vh; /* Full viewport height */
+  box-sizing: border-box; /* Include padding in height */
+  padding: 20px; /* Optional padding for spacing */
+}
+
 .cart {
   background-color: #3d362ed2;
   padding: 20px;
   border: 1px solid rgba(0, 0, 0, 0.568);
   border-radius: 8px;
   max-width: 600px;
-  margin: 20px auto;
   box-shadow: 0 4px 8px rgb(0, 0, 0);
   text-align: center;
+  width: 100%; /* Ensure it doesn’t exceed container width */
+  max-height: 90vh; /* Adjust to prevent overflow */
+  overflow-y: auto; /* Add scrolling if content overflows */
 }
 
 .cart h2 {
@@ -392,11 +435,10 @@ body {
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: 18px;
+  font-size: 22px;
   color: #ffffff;
   text-shadow: 0 4px 8px black;
   box-shadow: 0 4px 8px black;
-  font-size: 22px;
 }
 
 .cart ul li:last-child {
@@ -417,4 +459,148 @@ body {
   margin: 0;
   font-size: 0.9rem;
   color: #ffffff;
+}
+
+#img {
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  margin-top: 15px;
+}
+
+.message {
+  color: #28a745;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+/* General Styles */
+.cart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.cart {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+#title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+#access {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:focus {
+  outline: none;
+}
+
+#close-modal {
+  background-color: red;
+  color: #fff;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+#close-modal:hover {
+  background-color: darkred;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  position: relative;
+}
+
+.message {
+  color: green;
+  margin-bottom: 15px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-actions {
+  margin-top: 20px;
+}
+
+.login-actions p {
+  margin-top: 10px;
+}
+
+.login-actions span {
+  color: #007bff;
+  cursor: pointer;
+}
+
+.login-actions span:hover {
+  text-decoration: underline;
+}
+
+.home-button {
+  margin-top: 20px;
 }

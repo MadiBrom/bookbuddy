@@ -31,7 +31,13 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<AllBooks books={books} searchParams={searchParams} />}
+          element={
+            <AllBooks
+              books={books}
+              searchParams={searchParams}
+              setSearchParams={handleSearch}
+            />
+          }
         />
         <Route path="/books/:id" element={<SingleBook />} />
         <Route path="/cart" element={<Cart />} />

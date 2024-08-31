@@ -1,13 +1,30 @@
 const API_URL = "https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api/books";
 const AUTH_ENDPOINT =
   "https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api/auth/login";
-const API_BASE_URL = "https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api";
+
+async function handleApiResponse(response) {
+  if (!response.ok) {
+    const errorMessage = `Error: ${response.status} ${response.statusText}`;
+    console.error(errorMessage);
+    throw new Error(errorMessage);
+  }
+  return response.json();
+}
+
+async function fetchWithErrorHandling(url, options = {}) {
+  try {
+    const response = await fetch(url, options);
+    return await handleApiResponse(response);
+  } catch (error) {
+    console.error("Network error:", error);
+    throw new Error("Network error, please try again later.");
+  }
+}
 
 export async function fetchAllBooks() {
   try {
-    const response = await fetch(API_URL);
-    const json = await response.json();
-    return json.books;
+    const data = await fetchWithErrorHandling(API_URL);
+    return data.books;
   } catch (error) {
     console.error("Error fetching all books:", error);
     return [];
@@ -16,15 +33,7 @@ export async function fetchAllBooks() {
 
 export async function fetchSingleBook(id) {
   try {
-    const response = await fetch(`${API_URL}/${id}`);
-
-    if (!response.ok) {
-      const errorMessage = `Error: ${response.status} ${response.statusText}`;
-      console.error("Failed to fetch single book:", errorMessage);
-      throw new Error(errorMessage);
-    }
-
-    const data = await response.json();
+    const data = await fetchWithErrorHandling(`${API_URL}/${id}`);
     return data.book;
   } catch (error) {
     console.error("Error fetching book:", error);
@@ -35,20 +44,11 @@ export async function fetchSingleBook(id) {
 export async function fetchBooks() {
   const token = localStorage.getItem("authToken");
   try {
-    const response = await fetch(`${API_BASE_URL}/secure-books`, {
-      // Updated to actual secure endpoint
+    const data = await fetchWithErrorHandling(`${API_URL}/secure-books`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-
-    if (!response.ok) {
-      const errorMessage = `Error: ${response.status} ${response.statusText}`;
-      console.error("Failed to fetch books with token:", errorMessage);
-      throw new Error(errorMessage);
-    }
-
-    const data = await response.json();
     return data.books;
   } catch (error) {
     console.error("Error fetching books with token:", error);
@@ -56,7 +56,7 @@ export async function fetchBooks() {
   }
 }
 
-export async function handleLogin(email, password) {
+export async function loginUser(email, password) {
   try {
     const response = await fetch(AUTH_ENDPOINT, {
       method: "POST",
@@ -65,42 +65,36 @@ export async function handleLogin(email, password) {
       },
       body: JSON.stringify({ email, password }),
     });
-
-    if (response.ok) {
-      const data = await response.json();
-      localStorage.setItem("authToken", data.token);
-      console.log("Sign-in successful");
-      return data.token;
-    } else {
-      throw new Error("Sign-in failed");
-    }
+    const data = await handleApiResponse(response);
+    localStorage.setItem("authToken", data.token);
+    console.log("Sign-in successful");
+    return data.token;
   } catch (error) {
     console.error("An error occurred during login:", error);
     throw error;
   }
 }
 
-export async function handleSignUp(first, last, email, password) {
-  const response = await fetch(`${API_BASE_URL}/auth/signup`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ first, last, email, password }),
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to sign up");
+export async function registerUser(first, last, email, password) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ first, last, email, password }),
+    });
+    const data = await handleApiResponse(response);
+    return data.token;
+  } catch (error) {
+    console.error("An error occurred during sign-up:", error);
+    throw error;
   }
-
-  const { token } = await response.json();
-  return token;
 }
 
 export async function checkBookAvailability(id) {
   try {
-    const response = await fetch(`${API_URL}/${id}`);
-    const data = await response.json();
+    const data = await fetchWithErrorHandling(`${API_URL}/${id}`);
     return data.book && data.book.available;
   } catch (error) {
     console.error("Error checking book availability:", error);

@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { fetchSingleBook } from "../API";
-import { useParams, Link } from "react-router-dom";
+import { fetchSingleBook, checkBookAvailability } from "../API";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 import { useCart } from "./CartContext";
-import { checkBookAvailability } from "../API";
 
 function SingleBook() {
   const { id } = useParams();
   const [book, setBook] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [cart, setCart] = useState([]);
   const { addToCart } = useCart();
+  const navigate = useNavigate();
 
-  function handleCheckout() {
-    addToCart(book);
-    alert("Book added to cart!");
-    setCart((prevCart) => [...prevCart, book]);
-    const token = localStorage.getItem("authToken");
+  async function handleCheckout() {
+    try {
+      const isAvailable = await checkBookAvailability(id);
 
-    if (!token) {
-      alert("You must be logged in to add items to the cart.");
-      navigate("/login");
-      return;
+      if (isAvailable) {
+        addToCart(book);
+        alert("Book added to cart!");
+      } else {
+        alert("Sorry, this book is not available at the moment.");
+      }
+    } catch (error) {
+      alert("An error occurred while trying to add the book to the cart.");
     }
   }
 
@@ -40,21 +41,6 @@ function SingleBook() {
     getBook();
   }, [id]);
 
-  async function handleCheckout() {
-    try {
-      const isAvailable = await checkBookAvailability(book.id);
-
-      if (isAvailable) {
-        addToCart(book);
-        alert("Book added to cart!");
-      } else {
-        alert("Sorry, this book is not available at the moment.");
-      }
-    } catch (error) {
-      alert("An error occurred while trying to add the book to the cart.");
-    }
-  }
-
   if (loading) {
     return <p>Loading book information...</p>;
   }
@@ -69,12 +55,7 @@ function SingleBook() {
 
   return (
     <div className="single-book-page">
-      <NavBar
-        handleLogin={(email, password) => Promise.resolve("authToken")}
-        handleSignUp={(first, last, email, password) =>
-          Promise.resolve("token")
-        }
-      />
+      <NavBar />
       <div className="book-container">
         <div className="bookcard">
           <h2 id="titles">{book.title}</h2>
@@ -85,8 +66,10 @@ function SingleBook() {
               {book.available ? "Available" : "Not Available"}
             </p>
           </div>
-          <img id="img" src={book.coverimage} alt={book.title} />
-          <p id="description">{book.description}</p>
+          <div id="describe">
+            <img id="img" src={book.coverimage} alt={book.title} />
+            <p id="description">{book.description}</p>
+          </div>
           <Link to="/">
             <button className="back-button">Back</button>
           </Link>

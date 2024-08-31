@@ -1,4 +1,3 @@
-// src/CartContext.js
 import React, { createContext, useState, useContext } from "react";
 
 const CartContext = createContext();
@@ -10,7 +9,6 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (book) => {
     setCart((prevCart) => {
-      // Check if the book is already in the cart
       const bookExists = prevCart.some((item) => item.id === book.id);
       if (bookExists) {
         return prevCart;

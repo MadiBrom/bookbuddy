@@ -1,10 +1,9 @@
-// src/components/NavBar.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
-import { AuthProvider } from "./AuthContext";
+import { useAuth } from "./AuthContext";
 
-function NavBar({ setSearchParams, handleLogin, handleSignUp }) {
+function NavBar({ setSearchParams }) {
   const [showModal, setShowModal] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [loginData, setLoginData] = useState({
@@ -13,9 +12,10 @@ function NavBar({ setSearchParams, handleLogin, handleSignUp }) {
     email: "",
     password: "",
   });
+  const [message, setMessage] = useState("");
 
-  const { getCartCount, cart } = useCart();
-  const { logout } = AuthProvider();
+  const { getCartCount } = useCart();
+  const { logout, login, signup } = useAuth();
   const navigate = useNavigate();
 
   function openModal(signUp = false) {
@@ -25,6 +25,7 @@ function NavBar({ setSearchParams, handleLogin, handleSignUp }) {
 
   function closeModal() {
     setShowModal(false);
+    setMessage("");
   }
 
   function handleInputChange(e) {
@@ -37,50 +38,40 @@ function NavBar({ setSearchParams, handleLogin, handleSignUp }) {
 
   async function handleLoginSubmit(e) {
     e.preventDefault();
-    try {
-      const token = await handleLogin(loginData.email, loginData.password);
-      if (token) {
-        console.log("Login successful!");
-        setLoginData({ ...loginData, password: "" });
-        closeModal();
-      }
-    } catch (error) {
-      console.error("Login error:", error);
+    const result = await login(loginData.email, loginData.password);
+    setMessage(result.message);
+    if (result.success) {
+      setLoginData({ ...loginData, password: "" });
+      closeModal();
     }
   }
 
   async function handleSignUpSubmit(e) {
     e.preventDefault();
-    try {
-      const token = await handleSignUp(
-        loginData.first,
-        loginData.last,
-        loginData.email,
-        loginData.password
-      );
-      if (token) {
-        console.log("Sign-up successful!");
-        setLoginData({
-          first: "",
-          last: "",
-          email: "",
-          password: "",
-        });
-        closeModal();
-      }
-    } catch (error) {
-      console.error("Sign-up error:", error);
+    const result = await signup(
+      loginData.first,
+      loginData.last,
+      loginData.email,
+      loginData.password
+    );
+    setMessage(result.message);
+    if (result.success) {
+      setLoginData({
+        first: "",
+        last: "",
+        email: "",
+        password: "",
+      });
+      closeModal();
     }
   }
 
   const handleCartClick = () => {
     navigate("/cart");
-    console.log("Cart clicked");
   };
 
   const handleLogOutClick = () => {
     logout();
-    console.log("Logged out successfully");
   };
 
   return (
@@ -98,6 +89,7 @@ function NavBar({ setSearchParams, handleLogin, handleSignUp }) {
       {showModal && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            {message && <p className="message">{message}</p>}
             {isSignUp ? (
               <form onSubmit={handleSignUpSubmit}>
                 <label>
