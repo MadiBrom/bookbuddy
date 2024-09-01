@@ -1,5 +1,5 @@
 import React from "react";
-import { useUser } from "./UserContext";
+import { useUser } from "./UserContext.jsx";
 
 const MyAccount = () => {
   const user = useUser();
@@ -7,10 +7,10 @@ const MyAccount = () => {
     <div>
       <h2>My Account</h2>
       <p>
-        <strong>First Name:</strong> {user.firstName}
+        <strong>First Name:</strong> {user.first}
       </p>
       <p>
-        <strong>Last Name:</strong> {user.lastName}
+        <strong>Last Name:</strong> {user.last}
       </p>
       <p>
         <strong>Email:</strong> {user.email}

@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
           setUser(currentUser);
         } catch (error) {
           console.error("Failed to fetch user:", error);
+          setUser(null); // Ensure the user state is cleared on failure
         } finally {
           setLoading(false);
         }
@@ -29,29 +30,33 @@ export const AuthProvider = ({ children }) => {
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [navigate]);
 
   const login = async (email, password) => {
-    const result = await loginUser(email, password);
-    if (result.success) {
-      setUser(result.user);
-      navigate("/");
+    try {
+      const result = await loginUser(email, password);
+      if (result.success) {
+        setUser(result.user);
+        localStorage.setItem("authToken", result.token); // Store token on successful login
+        navigate("/");
+      }
+      return result;
+    } catch (error) {
+      console.error("Error during login:", error);
+      return { success: false, message: error.message };
     }
-    return result;
   };
 
   const signup = async (first, last, email, password) => {
     try {
-      const token = await registerUser(first, last, email, password);
-      if (token) {
-        localStorage.setItem("authToken", token);
+      const result = await registerUser(first, last, email, password);
+      if (result.success) {
+        localStorage.setItem("authToken", result.token); // Store token on successful signup
         const currentUser = await fetchCurrentUser();
         setUser(currentUser);
         navigate("/");
-        return { success: true, message: "Sign-up successful!" };
-      } else {
-        throw new Error("Sign-up failed");
       }
+      return result;
     } catch (error) {
       console.error("Error during signup:", error);
       return { success: false, message: error.message };
@@ -59,8 +64,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    setUser(null);
     localStorage.removeItem("authToken");
+    setUser(null);
     navigate("/login");
   };
 

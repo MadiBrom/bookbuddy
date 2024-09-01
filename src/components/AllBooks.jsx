@@ -3,36 +3,33 @@ import { useNavigate } from "react-router-dom";
 import { fetchBooks } from "../API";
 import NavBar from "./NavBar";
 
-function AllBooks({ searchParams = "", setSearchParams }) {
-  const navigate = useNavigate;
+function AllBooks() {
+  const navigate = useNavigate();
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchParams, setSearchParams] = useState("");
 
   useEffect(() => {
     const loadBooks = async () => {
       try {
+        // Attempt to fetch books from the API
         const fetchedBooks = await fetchBooks();
-        console.log("Fetched Books:", fetchedBooks); // Log fetched books
         setBooks(fetchedBooks || []);
       } catch (err) {
-        console.error("Error loading books:", err); // Log detailed error
+        console.error("Error loading books:", err);
         setError(err);
       } finally {
         setLoading(false);
       }
     };
-
     loadBooks();
   }, []);
-
-  console.log("Books State:", books); // Log books state
-  console.log("Search Params:", searchParams); // Log search params
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message || "An error occurred"}</div>;
 
-  const filteredBooks = books.filter((book) =>
+  const filteredBooks = (books || []).filter((book) =>
     book.title.toLowerCase().includes(searchParams.toLowerCase())
   );
 
@@ -56,7 +53,7 @@ function AllBooks({ searchParams = "", setSearchParams }) {
           />
         </div>
       </div>
-      <div className="books-container">
+      <div className="books-container" onClick={handleBookClick}>
         {filteredBooks.length === 0 ? (
           <p>No books found.</p>
         ) : (

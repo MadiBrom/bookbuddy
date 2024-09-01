@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import AllBooks from "./components/AllBooks";
 import SingleBook from "./components/SingleBook";
+import MyAccount from "./components/MyAccount";
 import Cart from "./components/Cart";
 import { fetchBooks } from "./API";
 import "./App.css";
@@ -41,6 +42,7 @@ function App() {
         />
         <Route path="/books/:id" element={<SingleBook />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/myaccount" element={<MyAccount />} />
       </Routes>
     </div>
   );

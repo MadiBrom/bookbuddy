@@ -17,6 +17,7 @@ function Cart() {
     password: "",
   });
   const [message, setMessage] = useState("");
+  console.log("User state in Cart component:", user);
 
   function openModal(signUp = false) {
     setIsSignUp(signUp);
@@ -42,6 +43,7 @@ function Cart() {
     setMessage(result.message);
     if (result.success) {
       closeModal();
+      navigate("/cart"); // Redirect to cart after successful login
     }
   };
 
@@ -56,6 +58,7 @@ function Cart() {
     setMessage(result.message);
     if (result.success) {
       closeModal();
+      navigate("/cart"); // Redirect to cart after successful signup
     }
   };
 
