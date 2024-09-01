@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
 import { useAuth } from "./AuthContext";
+import { loginUser, signUp } from "../API";
 
 function NavBar({ setSearchParams }) {
   const [showModal, setShowModal] = useState(false);
@@ -38,7 +39,7 @@ function NavBar({ setSearchParams }) {
 
   async function handleLoginSubmit(e) {
     e.preventDefault();
-    const result = await login(loginData.email, loginData.password);
+    const result = await loginUser(loginData.email, loginData.password);
     setMessage(result.message);
     if (result.success) {
       setLoginData({ ...loginData, password: "" });
@@ -48,7 +49,7 @@ function NavBar({ setSearchParams }) {
 
   async function handleSignUpSubmit(e) {
     e.preventDefault();
-    const result = await signup(
+    const result = await signUp(
       loginData.first,
       loginData.last,
       loginData.email,

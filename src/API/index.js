@@ -1,6 +1,4 @@
 const API_URL = "https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api/books";
-const AUTH_ENDPOINT =
-  "https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api/auth/login";
 
 async function handleApiResponse(response) {
   if (!response.ok) {
@@ -58,7 +56,7 @@ export async function fetchBooks() {
 
 export async function registerUser(first, last, email, password) {
   try {
-    const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+    const response = await fetch(`${API_URL}/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -66,6 +64,7 @@ export async function registerUser(first, last, email, password) {
       body: JSON.stringify({ first, last, email, password }),
     });
     const data = await handleApiResponse(response);
+    localStorage.setItem("authToken", data.token); // Store token after signup
     return data.token;
   } catch (error) {
     console.error("An error occurred during sign-up:", error);
@@ -83,34 +82,21 @@ export async function checkBookAvailability(id) {
   }
 }
 
-export const loginUser = async (email, password) => {
-  const response = await fetch(`${API_URL}/auth/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
+export async function loginUser(email, password) {
+  try {
+    const response = await fetch(`${API_URL}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-  if (!response.ok) {
-    throw new Error("Login failed");
+    const data = await handleApiResponse(response);
+    localStorage.setItem("authToken", data.token); // Store token after login
+    return data.token;
+  } catch (error) {
+    console.error("Login failed:", error);
+    throw error;
   }
-
-  return response.json();
-};
-
-export const signupUser = async (first, last, email, password) => {
-  const response = await fetch(`${API_URL}/auth/signup`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ first, last, email, password }),
-  });
-
-  if (!response.ok) {
-    throw new Error("Sign-up failed");
-  }
-
-  return response.json();
-};
+}

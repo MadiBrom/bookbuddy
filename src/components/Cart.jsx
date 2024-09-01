@@ -42,6 +42,7 @@ function Cart() {
     setMessage(result.message);
     if (result.success) {
       closeModal();
+      navigate("/cart"); // Redirect to cart after login
     }
   };
 
@@ -56,6 +57,7 @@ function Cart() {
     setMessage(result.message);
     if (result.success) {
       closeModal();
+      navigate("/cart"); // Redirect to cart after signup
     }
   };
 
@@ -70,7 +72,7 @@ function Cart() {
             <button onClick={() => openModal(false)}>Log In</button>
             <button onClick={() => openModal(true)}>Sign Up</button>
           </div>
-          <button is="home" onClick={() => navigate("/")}>
+          <button id="home" onClick={() => navigate("/")}>
             Home
           </button>
         </div>
@@ -172,7 +174,7 @@ function Cart() {
 
   return (
     <div className="cart-container">
-      <NavBar setSearchParams={() => {}} />
+      <NavBar />
       <div className="cart">
         <h1 id="title">Your Cart</h1>
         {cart.length === 0 ? (
