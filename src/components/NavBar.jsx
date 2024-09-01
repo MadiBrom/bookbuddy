@@ -82,25 +82,23 @@ function NavBar({ setSearchParams }) {
     logout();
   };
 
+  const handleAccountClick = () => {
+    navigate("/myaccount");
+  };
   return (
     <nav className="navbar">
       <h2 id="title">Book Store</h2>
       <div className="search">
-        {/* Button to navigate to the home page */}
         <button onClick={handleHomeClick}>Home</button>
-
-        {/* Button to navigate to the cart page */}
         <button onClick={handleCartClick} className="cart-button">
           Cart ({getCartCount()})
         </button>
-
-        {/* Button to open the login/signup modal */}
         {!isAuthenticated && (
           <button onClick={() => openModal()}>Log In / Sign Up</button>
         )}
-
-        {/* Button to log out, only visible if the user is logged in */}
         {isAuthenticated && <button onClick={handleLogOutClick}>Logout</button>}
+        <button onClick={handleAccountClick}>My Account</button>
+        <button onClick={handleLogOutClick}>Logout</button>
       </div>
 
       {/* Modal for login/signup forms */}

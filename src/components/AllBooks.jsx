@@ -1,45 +1,44 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import NavBar from "./NavBar";
+import { useNavigate, useState, useEffect } from "react-router-dom";
 import { fetchBooks } from "../API";
 
 function AllBooks({ searchParams = "", setSearchParams }) {
-  const navigate = useNavigate();
+  const navigate = useNavigate;
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const loadBooks = async (token) => {
+    const loadBooks = async () => {
       try {
-        const fetchedBooks = await fetchBooks(token);
+        const fetchedBooks = await fetchBooks();
+        console.log("Fetched Books:", fetchedBooks); // Log fetched books
         setBooks(fetchedBooks || []);
       } catch (err) {
+        console.error("Error loading books:", err); // Log detailed error
         setError(err);
       } finally {
         setLoading(false);
       }
     };
 
-    const authToken = localStorage.getItem("authToken");
-    loadBooks(authToken);
+    loadBooks();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  console.log("Books State:", books); // Log books state
+  console.log("Search Params:", searchParams); // Log search params
 
-  const filteredBooks = Array.isArray(books)
-    ? books.filter((book) =>
-        book.title.toLowerCase().includes(searchParams.toLowerCase())
-      )
-    : [];
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message || "An error occurred"}</div>;
+
+  const filteredBooks = books.filter((book) =>
+    book.title.toLowerCase().includes(searchParams.toLowerCase())
+  );
+
+  console.log("Filtered Books:", filteredBooks); // Log filtered books
 
   const handleBookClick = (id) => {
     navigate(`/books/${id}`);
   };
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className="App">
@@ -86,5 +85,3 @@ function AllBooks({ searchParams = "", setSearchParams }) {
     </div>
   );
 }
-
-export default AllBooks;

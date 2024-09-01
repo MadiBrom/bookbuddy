@@ -10,19 +10,13 @@ async function fetchWithErrorHandling(url, options = {}) {
   }
 }
 
-export async function fetchBooks(token = null) {
+export async function fetchBooks() {
   try {
-    const headers = token ? { Authorization: `Bearer ${token}` } : {};
-    const response = await fetchWithErrorHandling(`${API_BASE_URL}/books`, {
-      headers,
-    });
-    return response.books;
+    const response = await fetchWithErrorHandling(`${API_BASE_URL}/books`);
+    return response.books; // Ensure 'books' matches the response structure
   } catch (error) {
-    console.error(
-      token ? "Error fetching books with token:" : "Error fetching all books:",
-      error
-    );
-    return [];
+    console.error("Error fetching all books:", error);
+    return []; // Return an empty array in case of error
   }
 }
 
@@ -51,7 +45,9 @@ export async function loginUser(email, password) {
       localStorage.setItem("authToken", data.token); // Store the token in local storage
       return { success: true, message: "Login successful!" };
     } else {
-      throw new Error("Login failed");
+      // Handle non-200 responses
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Login failed");
     }
   } catch (error) {
     console.error("An error occurred during login:", error);
