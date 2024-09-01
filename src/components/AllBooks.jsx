@@ -1,5 +1,7 @@
-import { useNavigate, useState, useEffect } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { fetchBooks } from "../API";
+import NavBar from "./NavBar";
 
 function AllBooks({ searchParams = "", setSearchParams }) {
   const navigate = useNavigate;
@@ -85,3 +87,4 @@ function AllBooks({ searchParams = "", setSearchParams }) {
     </div>
   );
 }
+export default AllBooks;

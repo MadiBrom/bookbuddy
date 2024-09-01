@@ -13,10 +13,11 @@ async function fetchWithErrorHandling(url, options = {}) {
 export async function fetchBooks() {
   try {
     const response = await fetchWithErrorHandling(`${API_BASE_URL}/books`);
-    return response.books; // Ensure 'books' matches the response structure
+    console.log("API Response:", response);
+    return response.books;
   } catch (error) {
     console.error("Error fetching all books:", error);
-    return []; // Return an empty array in case of error
+    return [];
   }
 }
 
