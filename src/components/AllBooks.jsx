@@ -1,21 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
+import { fetchBooks } from "../API";
 
-function AllBooks({ books, searchParams, setSearchParams }) {
+function AllBooks({ searchParams = "", setSearchParams }) {
   const navigate = useNavigate();
-  const filteredBooks = books.filter((book) =>
-    book.title.toLowerCase().includes(searchParams.toLowerCase())
-  );
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadBooks = async (token) => {
+      try {
+        const fetchedBooks = await fetchBooks(token);
+        setBooks(fetchedBooks || []);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const authToken = localStorage.getItem("authToken");
+    loadBooks(authToken);
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  const filteredBooks = Array.isArray(books)
+    ? books.filter((book) =>
+        book.title.toLowerCase().includes(searchParams.toLowerCase())
+      )
+    : [];
 
   const handleBookClick = (id) => {
     navigate(`/books/${id}`);
   };
 
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
   return (
     <div className="App">
       <header>
-        <NavBar setSearchParams={setSearchParams} />
+        <NavBar />
       </header>
       <div className="contain">
         <div className="search">

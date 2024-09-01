@@ -42,10 +42,10 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (first, last, email, password) => {
     try {
-      const token = await registerUser(first, last, email, password); // Register and get the token
+      const token = await registerUser(first, last, email, password);
       if (token) {
         localStorage.setItem("authToken", token);
-        const currentUser = await fetchCurrentUser(); // Fetch the current user with the token
+        const currentUser = await fetchCurrentUser();
         setUser(currentUser);
         navigate("/");
         return { success: true, message: "Sign-up successful!" };

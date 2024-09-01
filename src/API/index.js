@@ -120,7 +120,7 @@ export async function fetchCurrentUser() {
     if (response.ok) {
       const data = await response.json();
       console.log(data);
-      return data; // Return the user data if you need to use it
+      return data;
     } else {
       throw new Error(`Failed to fetch user: ${response.statusText}`);
     }

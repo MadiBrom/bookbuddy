@@ -4,45 +4,29 @@ import { useCart } from "./CartContext";
 import { useAuth } from "./AuthContext";
 
 function NavBar({ setSearchParams }) {
-  // State for controlling the visibility of the modal
   const [showModal, setShowModal] = useState(false);
-
-  // State to toggle between signup and login forms
   const [isSignUp, setIsSignUp] = useState(false);
-
-  // State to store the input data for the login/signup form
   const [loginData, setLoginData] = useState({
     first: "",
     last: "",
     email: "",
     password: "",
   });
-
-  // State to display messages to the user, like login errors
   const [message, setMessage] = useState("");
-
-  // Getting authentication functions and state from AuthContext
   const { isAuthenticated, login, logout, signup } = useAuth();
-
-  // Getting the cart count from the CartContext
   const { getCartCount } = useCart();
-
-  // useNavigate hook from react-router-dom for navigation
   const navigate = useNavigate();
 
-  // Function to open the modal and optionally set it for signup
   function openModal(signUp = false) {
     setIsSignUp(signUp);
     setShowModal(true);
   }
 
-  // Function to close the modal and reset any message
   function closeModal() {
     setShowModal(false);
     setMessage("");
   }
 
-  // Function to handle changes in the input fields of the form
   function handleInputChange(e) {
     const { name, value } = e.target;
     setLoginData({
@@ -51,29 +35,27 @@ function NavBar({ setSearchParams }) {
     });
   }
 
-  // Function to handle the login form submission
   async function handleLoginSubmit(e) {
     e.preventDefault();
-    // Attempt login with the provided email and password
+
     const result = await login(loginData.email, loginData.password);
-    setMessage(result.message); // Display any messages returned by the login
+    setMessage(result.message);
     if (result.success) {
-      setLoginData({ ...loginData, password: "" }); // Clear the password field
-      closeModal(); // Close the modal on successful login
+      setLoginData({ ...loginData, password: "" });
+      closeModal();
     }
   }
 
-  // Function to handle the signup form submission
   async function handleSignUpSubmit(e) {
     e.preventDefault();
-    // Attempt signup with the provided data
+
     const result = await signup(
       loginData.first,
       loginData.last,
       loginData.email,
       loginData.password
     );
-    setMessage(result.message); // Display any messages returned by the signup
+    setMessage(result.message);
     if (result.success) {
       setLoginData({
         first: "",
@@ -84,6 +66,11 @@ function NavBar({ setSearchParams }) {
       closeModal(); // Close the modal on successful signup
     }
   }
+
+  // Function to navigate to the home page
+  const handleHomeClick = () => {
+    navigate("/"); // Adjust this path if needed
+  };
 
   // Function to navigate to the cart page when the cart button is clicked
   const handleCartClick = () => {
@@ -99,6 +86,9 @@ function NavBar({ setSearchParams }) {
     <nav className="navbar">
       <h2 id="title">Book Store</h2>
       <div className="search">
+        {/* Button to navigate to the home page */}
+        <button onClick={handleHomeClick}>Home</button>
+
         {/* Button to navigate to the cart page */}
         <button onClick={handleCartClick} className="cart-button">
           Cart ({getCartCount()})
