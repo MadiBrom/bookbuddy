@@ -13,12 +13,15 @@ function AllBooks() {
   useEffect(() => {
     const loadBooks = async () => {
       try {
-        // Attempt to fetch books from the API
         const fetchedBooks = await fetchBooks();
-        setBooks(fetchedBooks || []);
+        if (Array.isArray(fetchedBooks)) {
+          setBooks(fetchedBooks);
+        } else {
+          setError("Unexpected response structure from the API.");
+        }
       } catch (err) {
         console.error("Error loading books:", err);
-        setError(err);
+        setError(err.message || "An error occurred while loading books.");
       } finally {
         setLoading(false);
       }
@@ -27,13 +30,11 @@ function AllBooks() {
   }, []);
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message || "An error occurred"}</div>;
+  if (error) return <div>Error: {error}</div>;
 
   const filteredBooks = (books || []).filter((book) =>
     book.title.toLowerCase().includes(searchParams.toLowerCase())
   );
-
-  console.log("Filtered Books:", filteredBooks); // Log filtered books
 
   const handleBookClick = (id) => {
     navigate(`/books/${id}`);
@@ -49,11 +50,12 @@ function AllBooks() {
           <input
             type="text"
             placeholder="Search for a book..."
+            value={searchParams}
             onChange={(e) => setSearchParams(e.target.value.toLowerCase())}
           />
         </div>
       </div>
-      <div className="books-container" onClick={handleBookClick}>
+      <div className="books-container">
         {filteredBooks.length === 0 ? (
           <p>No books found.</p>
         ) : (
@@ -84,4 +86,5 @@ function AllBooks() {
     </div>
   );
 }
+
 export default AllBooks;

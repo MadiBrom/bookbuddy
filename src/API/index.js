@@ -1,22 +1,20 @@
 const API_BASE_URL = "https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api";
 
 export async function fetchBooks() {
+  const url = `${API_BASE_URL}/books`;
   try {
-    const response = await fetch(url); // Fetching the response object
+    const response = await fetch(url);
 
-    // Check if the response is OK (status code 200-299)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    // Parse the response body as JSON
     const data = await response.json();
 
-    // Check if the data structure is as expected
     if (Array.isArray(data)) {
-      return data; // If the response is an array, return it directly
-    } else if (data.books) {
-      return data.books; // If the response has a "books" property, return it
+      return data;
+    } else if (data.books && Array.isArray(data.books)) {
+      return data.books;
     } else {
       console.error("Unexpected response structure:", data);
       return [];
@@ -28,8 +26,15 @@ export async function fetchBooks() {
 }
 
 export async function fetchSingleBook(id) {
+  const url = `${API_BASE_URL}/books/${id}`;
   try {
-    const data = await fetch(url / id);
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
     return data.book;
   } catch (error) {
     console.error("Error fetching book:", error.message);
@@ -95,8 +100,15 @@ export async function registerUser(first, last, email, password) {
 }
 
 export async function checkBookAvailability(id) {
+  const url = `${API_BASE_URL}/books/${id}`;
   try {
-    const data = await fetch(`${API_BASE_URL}/books/${id}`);
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
     return data.book && data.book.available;
   } catch (error) {
     console.error("Error checking book availability:", error.message);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import NavBar from "./components/NavBar"; // Import NavBar
 import AllBooks from "./components/AllBooks";
 import SingleBook from "./components/SingleBook";
 import MyAccount from "./components/MyAccount";
@@ -29,6 +30,7 @@ function App() {
 
   return (
     <div id="container">
+      <NavBar /> {/* Include NavBar here */}
       <Routes>
         <Route
           path="/"

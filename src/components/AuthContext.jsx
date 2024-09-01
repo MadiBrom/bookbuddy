@@ -1,77 +1,50 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { fetchCurrentUser, registerUser, loginUser } from "../API";
+// AuthContext.jsx
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { loginUser, getUserInfo } from "../API"; // Adjust paths as needed
 
 const AuthContext = createContext();
 
-export const useAuth = () => useContext(AuthContext);
-
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      const loadUser = async () => {
-        try {
-          const currentUser = await fetchCurrentUser();
-          setUser(currentUser);
-        } catch (error) {
-          console.error("Failed to fetch user:", error);
-          setUser(null); // Ensure the user state is cleared on failure
-        } finally {
-          setLoading(false);
-        }
-      };
+    const fetchUserInfo = async () => {
+      try {
+        const userInfo = await getUserInfo(); // Fetch user info
+        setUser(userInfo);
+        setIsAuthenticated(!!userInfo); // Set authentication status
+      } catch (error) {
+        setUser(null);
+        setIsAuthenticated(false);
+      }
+    };
 
-      loadUser();
-    } else {
-      setLoading(false);
-    }
-  }, [navigate]);
+    fetchUserInfo();
+  }, []);
 
   const login = async (email, password) => {
-    try {
-      const result = await loginUser(email, password);
-      if (result.success) {
-        setUser(result.user);
-        localStorage.setItem("authToken", result.token); // Store token on successful login
-        navigate("/");
-      }
-      return result;
-    } catch (error) {
-      console.error("Error during login:", error);
-      return { success: false, message: error.message };
+    const result = await loginUser(email, password);
+    if (result.success) {
+      setUser(result.user); // Assume user info is returned
+      setIsAuthenticated(true);
     }
-  };
-
-  const signup = async (first, last, email, password) => {
-    try {
-      const result = await registerUser(first, last, email, password);
-      if (result.success) {
-        localStorage.setItem("authToken", result.token); // Store token on successful signup
-        const currentUser = await fetchCurrentUser();
-        setUser(currentUser);
-        navigate("/");
-      }
-      return result;
-    } catch (error) {
-      console.error("Error during signup:", error);
-      return { success: false, message: error.message };
-    }
+    return result;
   };
 
   const logout = () => {
-    localStorage.removeItem("authToken");
     setUser(null);
-    navigate("/login");
+    setIsAuthenticated(false);
+    // Handle logout logic (e.g., clearing tokens)
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, signup, loading }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
-};
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
+}
