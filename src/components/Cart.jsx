@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
-import { useAuth } from "./AuthContext";
+import { AuthProvider } from "./AuthContext";
 import NavBar from "./NavBar";
 
 function Cart() {
   const navigate = useNavigate();
   const { cart } = useCart();
-  const { user, login, signup } = useAuth();
+  const { user, login, signup } = AuthProvider();
   const [showModal, setShowModal] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [loginData, setLoginData] = useState({

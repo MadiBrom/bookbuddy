@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
 import { useAuth } from "./AuthContext";
-import { loginUser, signUp } from "../API";
+import { loginUser, registerUser } from "../API"; // Ensure these are correctly named
 
 function NavBar({ setSearchParams }) {
   const [showModal, setShowModal] = useState(false);
@@ -16,7 +16,7 @@ function NavBar({ setSearchParams }) {
   const [message, setMessage] = useState("");
 
   const { getCartCount } = useCart();
-  const { logout, login, signup } = useAuth();
+  const { token, setToken, setUser } = useAuth(); // Use useAuth hook
   const navigate = useNavigate();
 
   function openModal(signUp = false) {
@@ -39,31 +39,36 @@ function NavBar({ setSearchParams }) {
 
   async function handleLoginSubmit(e) {
     e.preventDefault();
-    const result = await loginUser(loginData.email, loginData.password);
-    setMessage(result.message);
-    if (result.success) {
-      setLoginData({ ...loginData, password: "" });
-      closeModal();
+    try {
+      const result = await loginUser(loginData.email, loginData.password);
+      setMessage(result.message);
+      if (result.token) {
+        // Store token and close modal on successful login
+        setToken(result.token);
+        closeModal();
+      }
+    } catch (error) {
+      setMessage("Login failed. Please try again.");
     }
   }
 
   async function handleSignUpSubmit(e) {
     e.preventDefault();
-    const result = await signUp(
-      loginData.first,
-      loginData.last,
-      loginData.email,
-      loginData.password
-    );
-    setMessage(result.message);
-    if (result.success) {
-      setLoginData({
-        first: "",
-        last: "",
-        email: "",
-        password: "",
-      });
-      closeModal();
+    try {
+      const result = await registerUser(
+        loginData.first,
+        loginData.last,
+        loginData.email,
+        loginData.password
+      );
+      setMessage(result.message);
+      if (result.token) {
+        // Store token and close modal on successful signup
+        setToken(result.token);
+        closeModal();
+      }
+    } catch (error) {
+      setMessage("Sign-up failed. Please try again.");
     }
   }
 
@@ -72,7 +77,8 @@ function NavBar({ setSearchParams }) {
   };
 
   const handleLogOutClick = () => {
-    logout();
+    setToken(null); // Clear token
+    setUser(null); // Clear user data
   };
 
   return (
@@ -82,9 +88,11 @@ function NavBar({ setSearchParams }) {
         <button onClick={handleCartClick} className="cart-button">
           Cart ({getCartCount()})
         </button>
-
-        <button onClick={() => openModal()}>Log In / Sign Up</button>
-        <button onClick={handleLogOutClick}>Logout</button>
+        {token ? (
+          <button onClick={handleLogOutClick}>Logout</button>
+        ) : (
+          <button onClick={() => openModal()}>Log In / Sign Up</button>
+        )}
       </div>
 
       {showModal && (

@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import AllBooks from "./components/AllBooks";
 import SingleBook from "./components/SingleBook";
 import Cart from "./components/Cart";
-import { fetchAllBooks } from "./API";
+import { fetchBooks } from "./API";
 import "./App.css";
 
 function App() {
@@ -11,15 +11,15 @@ function App() {
   const [searchParams, setSearchParams] = useState("");
 
   useEffect(() => {
-    async function fetchBooks() {
+    async function fetchAllBooks() {
       try {
-        const data = await fetchAllBooks();
+        const data = await fetchBooks();
         setBooks(data);
       } catch (error) {
         console.error("Failed to fetch books:", error);
       }
     }
-    fetchBooks();
+    fetchAllBooks();
   }, []);
 
   const handleSearch = (query) => {

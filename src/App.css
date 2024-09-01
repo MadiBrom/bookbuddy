@@ -164,6 +164,7 @@ body {
 
 /* Book Details */
 #titles {
+  font-family: "Macondo", cursive;
   font-size: 40px;
   color: rgb(253, 240, 240);
   text-shadow: 3px 3px 5px black;
