@@ -56,25 +56,6 @@ export async function fetchBooks() {
   }
 }
 
-export async function loginUser(email, password) {
-  try {
-    const response = await fetch(AUTH_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await handleApiResponse(response);
-    localStorage.setItem("authToken", data.token);
-    console.log("Sign-in successful");
-    return data.token;
-  } catch (error) {
-    console.error("An error occurred during login:", error);
-    throw error;
-  }
-}
-
 export async function registerUser(first, last, email, password) {
   try {
     const response = await fetch(`${API_BASE_URL}/auth/signup`, {
@@ -101,3 +82,35 @@ export async function checkBookAvailability(id) {
     throw error;
   }
 }
+
+export const loginUser = async (email, password) => {
+  const response = await fetch(`${API_URL}/auth/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Login failed");
+  }
+
+  return response.json();
+};
+
+export const signupUser = async (first, last, email, password) => {
+  const response = await fetch(`${API_URL}/auth/signup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ first, last, email, password }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Sign-up failed");
+  }
+
+  return response.json();
+};

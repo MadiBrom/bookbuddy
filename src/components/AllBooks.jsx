@@ -15,17 +15,16 @@ function AllBooks({ books, searchParams, setSearchParams }) {
   return (
     <div className="App">
       <header>
-        <NavBar setSearchParams={setSearchParams} />
+        <NavBar />
       </header>
-      <div className="contain">
-        <div className="search">
-          <input
-            type="text"
-            placeholder="Search for a book..."
-            onChange={(e) => setSearchParams(e.target.value.toLowerCase())}
-          />
-        </div>
+      <div className="search">
+        <input
+          type="text"
+          placeholder="Search for a book..."
+          onChange={(e) => setSearchParams(e.target.value.toLowerCase())}
+        />
       </div>
+      <div className="contain"></div>
       <div className="books-container">
         {filteredBooks.length === 0 ? (
           <p>No books found.</p>
