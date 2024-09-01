@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser, registerUser } from "../API";
+import { fetchCurrentUser, registerUser, loginUser } from "../API";
 
 const AuthContext = createContext();
 
@@ -8,66 +8,64 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
-      const storedUser = { token };
-      setUser(storedUser);
-      loadUserCart(storedUser);
+      const loadUser = async () => {
+        try {
+          const currentUser = await fetchCurrentUser();
+          setUser(currentUser);
+        } catch (error) {
+          console.error("Failed to fetch user:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      loadUser();
+    } else {
+      setLoading(false);
     }
   }, []);
 
-  const loadUserCart = async (user) => {
-    try {
-      const cartData = await fetchUserCart(user.token);
-      setCart(cartData);
-    } catch (error) {
-      console.error("Failed to load user cart", error);
-    }
-  };
-
   const login = async (email, password) => {
-    try {
-      const token = await loginUser(email, password);
-      const loggedInUser = { token };
-      setUser(loggedInUser);
-      localStorage.setItem("authToken", token);
-      await loadUserCart(loggedInUser);
+    const result = await loginUser(email, password);
+    if (result.success) {
+      setUser(result.user);
       navigate("/");
-      return { success: true, message: "Login successful!" };
-    } catch (error) {
-      console.error("An error occurred during login:", error);
-      return { success: false, message: error.message };
     }
+    return result;
   };
 
   const signup = async (first, last, email, password) => {
     try {
-      const token = await registerUser(first, last, email, password);
-      const newUser = { token };
-      setUser(newUser);
-      localStorage.setItem("authToken", token);
-      await loadUserCart(newUser);
-      navigate("/");
-      return { success: true, message: "Sign-up successful!" };
+      const token = await registerUser(first, last, email, password); // Register and get the token
+      if (token) {
+        localStorage.setItem("authToken", token);
+        const currentUser = await fetchCurrentUser(); // Fetch the current user with the token
+        setUser(currentUser);
+        navigate("/");
+        return { success: true, message: "Sign-up successful!" };
+      } else {
+        throw new Error("Sign-up failed");
+      }
     } catch (error) {
-      console.error("An error occurred during sign-up:", error);
+      console.error("Error during signup:", error);
       return { success: false, message: error.message };
     }
   };
 
   const logout = () => {
     setUser(null);
-    setCart([]);
     localStorage.removeItem("authToken");
     navigate("/login");
   };
 
   return (
-    <AuthContext.Provider value={{ user, cart, login, logout, signup }}>
+    <AuthContext.Provider value={{ user, login, logout, signup, loading }}>
       {children}
     </AuthContext.Provider>
   );

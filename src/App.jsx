@@ -11,15 +11,15 @@ function App() {
   const [searchParams, setSearchParams] = useState("");
 
   useEffect(() => {
-    async function fetchAllBooks() {
+    async function fetchBooks() {
       try {
-        const data = await fetchBooks();
+        const data = await fetchAllBooks();
         setBooks(data);
       } catch (error) {
         console.error("Failed to fetch books:", error);
       }
     }
-    fetchAllBooks();
+    fetchBooks();
   }, []);
 
   const handleSearch = (query) => {

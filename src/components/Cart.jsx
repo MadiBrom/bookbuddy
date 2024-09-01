@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
-import { AuthProvider } from "./AuthContext";
+import { useAuth } from "./AuthContext";
 import NavBar from "./NavBar";
 
 function Cart() {
   const navigate = useNavigate();
   const { cart } = useCart();
-  const { user, login, signup } = AuthProvider();
+  const { user, login, signup } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [loginData, setLoginData] = useState({
@@ -42,7 +42,6 @@ function Cart() {
     setMessage(result.message);
     if (result.success) {
       closeModal();
-      navigate("/cart"); // Redirect to cart after login
     }
   };
 
@@ -57,12 +56,15 @@ function Cart() {
     setMessage(result.message);
     if (result.success) {
       closeModal();
-      navigate("/cart"); // Redirect to cart after signup
     }
   };
 
+  // if (!isAuthenticated) {
+  //   history.push("/login");
+  //   return null;
+  // }
+
   if (!user) {
-    // If user is not logged in, show the modal to log in or sign up
     return (
       <div className="cart-container">
         <NavBar setSearchParams={() => {}} />
@@ -72,7 +74,7 @@ function Cart() {
             <button onClick={() => openModal(false)}>Log In</button>
             <button onClick={() => openModal(true)}>Sign Up</button>
           </div>
-          <button id="home" onClick={() => navigate("/")}>
+          <button is="home" onClick={() => navigate("/")}>
             Home
           </button>
         </div>
@@ -174,7 +176,7 @@ function Cart() {
 
   return (
     <div className="cart-container">
-      <NavBar />
+      <NavBar setSearchParams={() => {}} />
       <div className="cart">
         <h1 id="title">Your Cart</h1>
         {cart.length === 0 ? (

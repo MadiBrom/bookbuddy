@@ -5,15 +5,18 @@ import App from "./App";
 import { CartProvider } from "./components/CartContext";
 import { AuthProvider } from "./components/AuthContext";
 import "./index.css";
+import ErrorBoundary from "./ErrorBoundary";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Router>
-      <AuthProvider>
-        <CartProvider>
-          <App />
-        </CartProvider>
-      </AuthProvider>
+      <ErrorBoundary>
+        <AuthProvider>
+          <CartProvider>
+            <App />
+          </CartProvider>
+        </AuthProvider>
+      </ErrorBoundary>
     </Router>
   </React.StrictMode>
 );

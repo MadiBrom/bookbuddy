@@ -1,37 +1,34 @@
-const API_URL = "https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api";
-
-async function handleApiResponse(response) {
-  if (!response.ok) {
-    const errorMessage = `Error: ${response.status} ${response.statusText}`;
-    console.error(errorMessage);
-    throw new Error(errorMessage);
-  }
-  return response.json();
-}
+const API_BASE_URL = "https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api";
 
 async function fetchWithErrorHandling(url, options = {}) {
   try {
     const response = await fetch(url, options);
-    return await handleApiResponse(response);
+    return await fetch(response);
   } catch (error) {
     console.error("Network error:", error);
     throw new Error("Network error, please try again later.");
   }
 }
 
-export async function fetchAllBooks() {
+export async function fetchBooks(token = null) {
   try {
-    const data = await fetchWithErrorHandling(API_URL);
-    return data.books;
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    const response = await fetchWithErrorHandling(`${API_BASE_URL}/books`, {
+      headers,
+    });
+    return response.books;
   } catch (error) {
-    console.error("Error fetching all books:", error);
+    console.error(
+      token ? "Error fetching books with token:" : "Error fetching all books:",
+      error
+    );
     return [];
   }
 }
 
 export async function fetchSingleBook(id) {
   try {
-    const data = await fetchWithErrorHandling(`${API_URL}/${id}`);
+    const data = await fetchWithErrorHandling(`${API_BASE_URL}/books/${id}`);
     return data.book;
   } catch (error) {
     console.error("Error fetching book:", error);
@@ -39,52 +36,9 @@ export async function fetchSingleBook(id) {
   }
 }
 
-export async function fetchBooks() {
-  const token = localStorage.getItem("authToken");
-  try {
-    const data = await fetchWithErrorHandling(`${API_URL}/secure-books`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return data.books;
-  } catch (error) {
-    console.error("Error fetching books with token:", error);
-    throw error;
-  }
-}
-
-export async function registerUser(first, last, email, password) {
-  try {
-    const response = await fetch(`${API_URL}/auth/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ first, last, email, password }),
-    });
-    const data = await handleApiResponse(response);
-    localStorage.setItem("authToken", data.token); // Store token after signup
-    return data.token;
-  } catch (error) {
-    console.error("An error occurred during sign-up:", error);
-    throw error;
-  }
-}
-
-export async function checkBookAvailability(id) {
-  try {
-    const data = await fetchWithErrorHandling(`${API_URL}/${id}`);
-    return data.book && data.book.available;
-  } catch (error) {
-    console.error("Error checking book availability:", error);
-    throw error;
-  }
-}
-
 export async function loginUser(email, password) {
   try {
-    const response = await fetch(`${API_URL}/auth/login`, {
+    const response = await fetch(`${API_BASE_URL}/users/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -92,11 +46,86 @@ export async function loginUser(email, password) {
       body: JSON.stringify({ email, password }),
     });
 
-    const data = await handleApiResponse(response);
-    localStorage.setItem("authToken", data.token); // Store token after login
-    return data.token;
+    if (response.ok) {
+      const data = await response.json(); // Extract the JSON data
+      localStorage.setItem("authToken", data.token); // Store the token in local storage
+      return { success: true, message: "Login successful!" };
+    } else {
+      throw new Error("Login failed");
+    }
   } catch (error) {
-    console.error("Login failed:", error);
+    console.error("An error occurred during login:", error);
+    return { success: false, message: error.message };
+  }
+}
+
+export async function registerUser(first, last, email, password) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/users/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        first,
+        last,
+        email,
+        password,
+      }),
+    });
+
+    const data = await response.json(); // Extract the JSON data
+    console.log("registerUser response data:", data); // Log the response data
+
+    if (response.ok) {
+      // Automatically log in the user after successful registration
+      const loginResult = await loginUser(email, password);
+      if (loginResult.success) {
+        return {
+          token: localStorage.getItem("authToken"),
+          message: "Registration and login successful!",
+        };
+      } else {
+        return { token: null, message: loginResult.message };
+      }
+    } else {
+      const errorMessage = data.message || "Sign-up failed";
+      throw new Error(errorMessage); // Use the message from the response or a default message
+    }
+  } catch (error) {
+    console.error("An error occurred during sign-up and login:", error);
+    return { token: null, message: error.message }; // Return error message
+  }
+}
+
+export async function checkBookAvailability(id) {
+  try {
+    const data = await fetchWithErrorHandling(`${API_BASE_URL}/books/${id}`);
+    return data.book && data.book.available;
+  } catch (error) {
+    console.error("Error checking book availability:", error);
+    throw error;
+  }
+}
+
+export async function fetchCurrentUser() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/users/me`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      return data; // Return the user data if you need to use it
+    } else {
+      throw new Error(`Failed to fetch user: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error("Error fetching current user:", error);
     throw error;
   }
 }
