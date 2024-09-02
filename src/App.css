@@ -6,9 +6,20 @@ body {
   background-size: cover;
   background-attachment: fixed;
   color: #ffffff; /* Ensure text is readable against the dark background */
-
   line-height: 1.5;
   font-weight: 400;
+}
+
+/* Global Font Styling */
+body,
+button,
+input,
+p,
+h2,
+h3,
+h5 {
+  font-family: "Baskervville SC", serif;
+  color: #ffffff; /* Consistent text color */
 }
 
 /* Books Container */
@@ -57,6 +68,12 @@ body {
   font-size: 16px;
 }
 
+/* Button Focus State */
+button:focus {
+  outline: 2px solid #f0caba;
+  outline-offset: 2px;
+}
+
 .navbar button:hover {
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -76,7 +93,8 @@ body {
 }
 
 .navbar .nav-links a:hover {
-  color: rgba(240, 202, 178, 0.9);
+  color: #f0caba;
+  text-decoration: underline;
 }
 
 /* Responsive Navbar Adjustments */
@@ -132,12 +150,12 @@ body {
 /* Book Card Text */
 .book-card h3 {
   margin: 10px 0 5px;
-  font-size: 18px;
+  font-size: 20px; /* Adjusted for better readability */
 }
 
 .book-card h5 {
   margin: 0;
-  font-size: 14px;
+  font-size: 16px; /* Adjusted for better readability */
 }
 
 /* Responsive Book Card Styles */
@@ -279,10 +297,18 @@ body {
   font-family: "Macondo", cursive;
 }
 
-.modal-content h2 {
-  margin-top: 0;
-  font-size: 1.5rem;
-  color: #333;
+/* Modal Centering */
+.modal-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Focus Styles in Modal */
+.modal-content button:focus,
+.modal-content input:focus {
+  outline: 2px solid #f0caba;
+  outline-offset: 2px;
 }
 
 /* Modal Form Elements */
@@ -349,7 +375,7 @@ body {
 .cart-item {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px; /* Adjusted for consistent spacing */
 }
 
 .cart-item img {
@@ -390,4 +416,15 @@ body {
     width: 40px;
     height: 60px;
   }
+}
+
+/* Smooth Transitions */
+button,
+.navbar .nav-links a {
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover,
+.navbar .nav-links a:hover {
+  transform: scale(1.05);
 }

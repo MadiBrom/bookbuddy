@@ -27,14 +27,12 @@ function MyAccount({ showLoginModal }) {
       {userInfo ? (
         <div>
           <p>
-            <strong>Name:</strong> {userInfo.name || "No name available"}{" "}
-            {/* Handle cases where name might be missing */}
+            <strong>Name:</strong> {userInfo.first}{" "}
+            {userInfo.last || "No name available"}
           </p>
           <p>
-            <strong>Email:</strong> {userInfo.email || "No email available"}{" "}
-            {/* Handle cases where email might be missing */}
+            <strong>Email:</strong> {userInfo.email || "No email available"}
           </p>
-          {/* Add other user information as needed */}
         </div>
       ) : (
         <p>Loading account details...</p>

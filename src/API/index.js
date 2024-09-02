@@ -50,27 +50,25 @@ export async function fetchSingleBook(id) {
 }
 
 // Handle user login and store the authentication token
-export async function loginUser(email, password) {
+export async function loginUser(email, password, first, last) {
   try {
     const response = await fetch(`${API_BASE_URL}/users/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }), // Send login credentials
+      body: JSON.stringify({ email, password, first, last }),
     });
 
-    // If login is successful, store the token and return a success message
     if (response.ok) {
       const data = await response.json();
       localStorage.setItem("authToken", data.token);
-      return { success: true, message: "Login successful!" };
+      return { success: true, user: data.user, message: "Login successful!" }; // Ensure user details are returned
     } else {
       const errorData = await response.json();
       throw new Error(errorData.message || "Login failed");
     }
   } catch (error) {
-    // Log any errors encountered during the login process
     console.error("An error occurred during login:", error);
     return { success: false, message: error.message };
   }

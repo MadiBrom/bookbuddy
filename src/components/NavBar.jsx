@@ -5,32 +5,29 @@ import { useAuth } from "./AuthContext";
 import { loginUser, registerUser } from "../API";
 
 function NavBar() {
-  const [showModal, setShowModal] = useState(false); // State for modal visibility
-  const [isSignUp, setIsSignUp] = useState(false); // State to toggle between login and sign-up
+  const [showModal, setShowModal] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
   const [loginData, setLoginData] = useState({
     first: "",
     last: "",
     email: "",
     password: "",
-  }); // State to store login/sign-up data
-  const [message, setMessage] = useState(""); // State to store feedback messages
-  const { isAuthenticated, login, logout, signup } = useAuth(); // Access authentication functions
-  const { getCartCount } = useCart(); // Access cart count from CartContext
-  const navigate = useNavigate(); // React Router hook for navigation
+  });
+  const [message, setMessage] = useState("");
+  const { isAuthenticated, login, logout, signup } = useAuth();
+  const { getCartCount } = useCart();
+  const navigate = useNavigate();
 
-  // Function to open the modal and toggle between login and sign-up forms
   function openModal(signUp = false) {
     setIsSignUp(signUp);
     setShowModal(true);
   }
 
-  // Function to close the modal and reset the message
   function closeModal() {
     setShowModal(false);
     setMessage("");
   }
 
-  // Handle input change for login/sign-up forms
   function handleInputChange(e) {
     const { name, value } = e.target;
     setLoginData({
@@ -39,21 +36,19 @@ function NavBar() {
     });
   }
 
-  // Handle login form submission
   async function handleLoginSubmit(e) {
     e.preventDefault();
-    const result = await loginUser(loginData.email, loginData.password);
-    setMessage(result.message); // Display message in the modal
+    const result = await login(loginData.email, loginData.password);
+    setMessage(result.message);
 
     if (result.success) {
       setLoginData({ ...loginData, password: "" });
-      closeModal(); // Close the modal on successful login
+      closeModal();
     } else {
       console.error("Login failed:", result.message);
     }
   }
 
-  // Handle sign-up form submission
   async function handleSignUpSubmit(e) {
     e.preventDefault();
     const result = await registerUser(
@@ -62,7 +57,7 @@ function NavBar() {
       loginData.email,
       loginData.password
     );
-    setMessage(result.message); // Display message in the modal
+    setMessage(result.message);
 
     if (result.success) {
       setLoginData({
@@ -71,11 +66,10 @@ function NavBar() {
         email: "",
         password: "",
       });
-      closeModal(); // Close the modal on successful sign-up
+      closeModal();
     }
   }
 
-  // Navigation functions
   const handleHomeClick = () => navigate("/");
   const handleCartClick = () => navigate("/cart");
   const handleLogOutClick = () => logout();
@@ -100,22 +94,20 @@ function NavBar() {
       <div className="search">
         <button onClick={handleHomeClick}>Home</button>
         <button onClick={handleCartClick} className="cart-button">
-          Cart ({getCartCount()}) {/* Display cart count */}
+          Cart ({getCartCount()})
         </button>
         {!isAuthenticated ? (
-          <button onClick={() => openModal()}>Log In / Sign Up</button> // Toggle modal for login/sign-up
+          <button onClick={() => openModal()}>Log In / Sign Up</button>
         ) : (
-          <button onClick={handleLogOutClick}>Logout</button> // Logout button
+          <button onClick={handleLogOutClick}>Logout</button>
         )}
-        <button onClick={handleAccountClick}>My Account</button>{" "}
-        {/* Navigate to My Account */}
+        <button onClick={handleAccountClick}>My Account</button>
       </div>
 
       {showModal && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            {message && <p className="message">{message}</p>}{" "}
-            {/* Display feedback message */}
+            {message && <p className="message">{message}</p>}
             {isSignUp ? (
               <form onSubmit={handleSignUpSubmit}>
                 <label>
@@ -162,8 +154,7 @@ function NavBar() {
                   <button type="submit">Sign Up</button>
                   <p>
                     Already have an account?{" "}
-                    <span onClick={() => openModal(false)}>Log In</span>{" "}
-                    {/* Toggle to login form */}
+                    <span onClick={() => openModal(false)}>Log In</span>
                   </p>
                 </div>
               </form>
@@ -193,14 +184,13 @@ function NavBar() {
                   <button type="submit">Log In</button>
                   <p>
                     Don't have an account?{" "}
-                    <span onClick={() => openModal(true)}>Sign Up</span>{" "}
-                    {/* Toggle to sign-up form */}
+                    <span onClick={() => openModal(true)}>Sign Up</span>
                   </p>
                 </div>
               </form>
             )}
             <button id="close-modal" onClick={closeModal}>
-              X {/* Close modal button */}
+              X
             </button>
           </div>
         </div>

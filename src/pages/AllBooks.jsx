@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchBooks } from "../API";
-import NavBar from "./NavBar";
+import NavBar from "../components/NavBar";
 
 function AllBooks() {
   const navigate = useNavigate(); // React Router hook for navigation

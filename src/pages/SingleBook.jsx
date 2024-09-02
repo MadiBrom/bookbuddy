@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { fetchSingleBook, checkBookAvailability } from "../API";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import NavBar from "./NavBar";
-import { useCart } from "./CartContext";
+import NavBar from "../components/NavBar";
+import { useCart } from "../components/CartContext";
 
 function SingleBook() {
   const { id } = useParams(); // Extract the book ID from the URL parameters
