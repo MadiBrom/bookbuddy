@@ -30,7 +30,7 @@ function App() {
 
   return (
     <div id="container">
-      <NavBar />
+      <NavBar /> {/* Include NavBar here */}
       <Routes>
         <Route
           path="/"

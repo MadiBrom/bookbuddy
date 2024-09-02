@@ -80,15 +80,14 @@ export async function registerUser(first, last, email, password) {
     console.log("registerUser response data:", data);
 
     if (response.ok) {
-      // Automatically log in after successful registration
       const loginResult = await loginUser(email, password);
       if (loginResult.success) {
         return {
-          success: true,
+          token: localStorage.getItem("authToken"),
           message: "Registration and login successful!",
         };
       } else {
-        return { success: false, message: loginResult.message };
+        return { token: null, message: loginResult.message };
       }
     } else {
       const errorMessage = data.message || "Sign-up failed";
@@ -96,7 +95,7 @@ export async function registerUser(first, last, email, password) {
     }
   } catch (error) {
     console.error("An error occurred during sign-up and login:", error);
-    return { success: false, message: error.message };
+    return { token: null, message: error.message };
   }
 }
 
@@ -136,39 +135,3 @@ export async function fetchCurrentUser() {
     throw error;
   }
 }
-
-export const checkoutBooks = async () => {
-  if (!user) {
-    setMessage("You must be logged in to checkout.");
-    return;
-  }
-
-  try {
-    if (!cart || cart.length === 0) {
-      setMessage("Your cart is empty.");
-      return;
-    }
-
-    for (const book of cart) {
-      console.log("Checking out book:", book);
-
-      const result = await checkoutBooks(book.id, false);
-      console.log("Checkout result:", result);
-
-      if (result.success) {
-        console.log(`${book.title} has been checked out successfully!`);
-      } else {
-        console.error(result.message);
-        setMessage(`Error checking out ${book.title}.`);
-        return;
-      }
-    }
-
-    setMessage("Checkout successful!");
-    clearCart();
-    navigate("/");
-  } catch (error) {
-    setMessage("An error occurred during checkout.");
-    console.error("Checkout error:", error);
-  }
-};

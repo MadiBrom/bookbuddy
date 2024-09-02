@@ -74,7 +74,7 @@ function SingleBook() {
             <button className="back-button">Back</button>
           </Link>
           <button className="add-cart" onClick={handleCheckout}>
-            Add to Cart
+            Checkout
           </button>
         </div>
       </div>

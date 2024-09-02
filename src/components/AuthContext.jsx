@@ -1,6 +1,6 @@
 // AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { loginUser, fetchCurrentUser } from "../API"; // Adjust paths as needed
+import { loginUser, getUserInfo } from "../API"; // Adjust paths as needed
 
 const AuthContext = createContext();
 
@@ -11,7 +11,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const userInfo = await fetchCurrentUser(); // Fetch user info
+        const userInfo = await getUserInfo(); // Fetch user info
         setUser(userInfo);
         setIsAuthenticated(!!userInfo); // Set authentication status
       } catch (error) {
