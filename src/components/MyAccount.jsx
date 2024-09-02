@@ -1,44 +1,73 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "./AuthContext";
-import { useNavigate } from "react-router-dom";
+import { fetchUserDetails, returnBook } from "../API";
 
-function MyAccount({ showLoginModal }) {
-  const { user, isAuthenticated } = useAuth(); // Access user info and authentication status
-  const [userInfo, setUserInfo] = useState(null); // State to store user information
-  const navigate = useNavigate();
-
+const Account = ({ token, setToken }) => {
+  const [userData, setUserData] = useState(null);
+  const fetchUserData = async () => {
+    const response = await fetchUserDetails(token);
+    setUserData(response);
+  };
   useEffect(() => {
-    if (isAuthenticated) {
-      setUserInfo(user); // Set user info when authenticated
-    } else {
-      showLoginModal(); // Show the login modal if not authenticated
-      navigate("/"); // Navigate to home or another page after showing modal
+    if (token) {
+      fetchUserData();
     }
-  }, [isAuthenticated, user, showLoginModal, navigate]); // Dependencies ensure this effect runs when authentication status or user data changes
-
-  // If user is not authenticated, the modal will show, so don't render anything else
-  if (!isAuthenticated) {
-    return null;
-  }
+  }, []);
 
   return (
-    <div className="my-account">
-      <h2>My Account</h2>
-      {userInfo ? (
+    <div>
+      {userData ? (
         <div>
-          <p>
-            <strong>Name:</strong> {userInfo.first}{" "}
-            {userInfo.last || "No name available"}
-          </p>
-          <p>
-            <strong>Email:</strong> {userInfo.email || "No email available"}
-          </p>
+          <h2 className="header">Welcome, {userData.firstname}!</h2>
+          <h2 className="header">Email: {userData.email}</h2>
+          <h1 className="header">My Books</h1>
+          <div className="main-div">
+            <br />
+            {userData.books.length === 0 ? (
+              <h2 className="header">No books checked out</h2>
+            ) : (
+              userData.books.map((book) => (
+                <main key={book.id} className="all-books">
+                  <h2>{book.title}</h2>
+                  <img
+                    className="cover"
+                    src={book.coverimage}
+                    alt={book.title}
+                  />
+                  <h5>by {book.author}</h5>
+                  <button
+                    className="return-button"
+                    onClick={async () => {
+                      await returnBook(book.id, token);
+                      await fetchUserData();
+                    }}
+                  >
+                    Return
+                  </button>
+                </main>
+              ))
+            )}
+          </div>
         </div>
       ) : (
-        <p>Loading account details...</p>
+        <div className="unauthorized">
+          <h2>Please log in or create an account to continue.</h2>
+        </div>
+      )}
+      {token && (
+        <div className="registration">
+          <button
+            className="logout-button"
+            onClick={async () => {
+              setToken("");
+              await fetchUserData();
+            }}
+          >
+            Log out
+          </button>
+        </div>
       )}
     </div>
   );
-}
+};
 
-export default MyAccount;
+export default Account;

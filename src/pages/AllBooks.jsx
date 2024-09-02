@@ -1,99 +1,58 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchBooks } from "../API";
-import NavBar from "../components/NavBar";
+import { fetchAllBooks } from "../API";
 
-function AllBooks() {
-  const navigate = useNavigate(); // React Router hook for navigation
-  const [books, setBooks] = useState([]); // State to store fetched books
-  const [loading, setLoading] = useState(true); // State to manage loading status
-  const [error, setError] = useState(null); // State to manage error status
-  const [searchParams, setSearchParams] = useState(""); // State for search input
+export default function Books() {
+  const navigate = useNavigate();
+  const [books, setBooks] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Fetch books when the component mounts
   useEffect(() => {
-    const loadBooks = async () => {
-      try {
-        const fetchedBooks = await fetchBooks(); // Fetch books from API
-        if (Array.isArray(fetchedBooks)) {
-          setBooks(fetchedBooks); // Set books in state if response is valid
-        } else {
-          setError("Unexpected response structure from the API."); // Handle unexpected response
-        }
-      } catch (err) {
-        console.error("Error loading books:", err); // Log error to console
-        setError(err.message || "An error occurred while loading books."); // Set error state
-      } finally {
-        setLoading(false); // Stop loading indicator
-      }
-    };
-    loadBooks(); // Load books on component mount
+    async function getAllBooks() {
+      const response = await fetchAllBooks();
+      setBooks(response.books);
+    }
+    getAllBooks();
   }, []);
 
-  // Display a loading message while fetching data
-  if (loading) return <div>Loading...</div>;
-
-  // Display an error message if there's an issue with fetching data
-  if (error)
-    return (
-      <div>
-        Error: {error}.{" "}
-        <button onClick={() => window.location.reload()}>Retry</button>
-      </div>
-    );
-
-  // Filter books based on search parameters
-  const filteredBooks = (books || []).filter((book) =>
-    book.title.toLowerCase().includes(searchParams.toLowerCase())
-  );
-
-  // Navigate to the book details page when a book is clicked
-  const handleBookClick = (id) => {
-    navigate(`/books/${id}`);
-  };
+  const booksToDisplay = searchTerm
+    ? books.filter((book) =>
+        book.title.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : books;
 
   return (
-    <div className="App">
-      <header>
-        <NavBar /> {/* Navigation bar at the top */}
-      </header>
-      <div className="contain">
-        <div className="search">
+    <>
+      <div className="search">
+        <label>
           <input
             type="text"
-            placeholder="Search for a book..."
-            value={searchParams}
-            onChange={(e) => setSearchParams(e.target.value.toLowerCase())} // Update search parameters
+            placeholder="Search by title"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-        </div>
+        </label>
       </div>
-      <div className="books-container">
-        {filteredBooks.length === 0 ? (
-          <p>No books found.</p> // Display message if no books match the search
-        ) : (
-          filteredBooks.map((book) => (
-            <div
+      <div className="main-div">
+        {booksToDisplay &&
+          booksToDisplay.map((book) => (
+            <main
+              className="all-books"
               key={book.id}
-              className="book-card"
-              onClick={() => handleBookClick(book.id)} // Navigate to book details on click
+              onClick={() => {
+                navigate(`/books/${book.id}`);
+              }}
             >
-              <h3 className="book-card-title">{book.title}</h3>
-              <div className="book-card-content">
-                <img
-                  src={book.coverimage}
-                  alt={book.title}
-                  className="bookcard-img"
-                />
-                <div className="book-card-details">
-                  <h5 className="book-card-author">Author: {book.author}</h5>
-                </div>
-              </div>
-            </div>
-          ))
-        )}
+              <h2>{book.title}</h2>
+              <img
+                className="cover"
+                src={book.coverimage}
+                alt={`${book.title} cover`}
+              />
+              <h5>by {book.author}</h5>
+            </main>
+          ))}
       </div>
-    </div>
+    </>
   );
 }
-
-export default AllBooks;

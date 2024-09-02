@@ -1,25 +1,11 @@
 import React from "react";
-import { createRoot } from "react-dom/client";
-import { BrowserRouter as Router } from "react-router-dom";
-import App from "./App";
-import { CartProvider } from "./components/CartContext";
-import { AuthProvider } from "./components/AuthContext";
-import { UserProvider } from "./components/UserContext";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
 import "./index.css";
-import ErrorBoundary from "./ErrorBoundary";
+import { BrowserRouter } from "react-router-dom";
 
-createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Router>
-      <ErrorBoundary>
-        <UserProvider>
-          <AuthProvider>
-            <CartProvider>
-              <App />
-            </CartProvider>
-          </AuthProvider>
-        </UserProvider>
-      </ErrorBoundary>
-    </Router>
-  </React.StrictMode>
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
 );

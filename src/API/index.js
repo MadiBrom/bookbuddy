@@ -1,154 +1,151 @@
-const API_BASE_URL = "https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api";
+const API_URL = "https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api/";
 
-// Fetch all books from the API
-export async function fetchBooks() {
-  const url = `${API_BASE_URL}/books`;
+export async function fetchAllBooks() {
   try {
-    const response = await fetch(url);
-
-    // Check if the response is successful
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    // Return the array of books, handling different response structures
-    if (Array.isArray(data)) {
-      return data;
-    } else if (Array.isArray(data.books)) {
-      return data.books;
-    } else {
-      console.error("Unexpected response structure:", data);
-      return [];
-    }
-  } catch (error) {
-    // Log any errors encountered during the fetch
-    console.error("Error fetching all books:", error.message);
-    return [];
+    const response = await fetch(`${API_URL}/books`);
+    const json = await response.json();
+    return json;
+  } catch (err) {
+    console.error("Uh oh, trouble fetching books!", err);
   }
 }
 
-// Fetch details of a single book by ID
 export async function fetchSingleBook(id) {
-  const url = `${API_BASE_URL}/books/${id}`;
   try {
-    const response = await fetch(url);
-
-    // Check if the response is successful
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data.book; // Return the book details
-  } catch (error) {
-    // Log the error and rethrow it for further handling if needed
-    console.error("Error fetching book:", error.message);
-    throw error;
+    const response = await fetch(`${API_URL}/books/${id}`);
+    const json = await response.json();
+    return json;
+  } catch (err) {
+    console.error("Uh oh, trouble fetching books!", err);
   }
 }
 
-// Handle user login and store the authentication token
-export async function loginUser(email, password, first, last) {
+export async function createNewUser(firstname, lastname, email, password) {
   try {
-    const response = await fetch(`${API_BASE_URL}/users/login`, {
+    const response = await fetch(`${API_URL}/users/register`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password, first, last }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        firstname,
+        lastname,
+        email,
+        password,
+      }),
     });
-
-    if (response.ok) {
-      const data = await response.json();
-      localStorage.setItem("authToken", data.token);
-      return { success: true, user: data.user, message: "Login successful!" }; // Ensure user details are returned
-    } else {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Login failed");
-    }
-  } catch (error) {
-    console.error("An error occurred during login:", error);
-    return { success: false, message: error.message };
+    const json = await response.json();
+    return json;
+  } catch (err) {
+    console.error("Oops, something went wrong!", err);
   }
 }
 
-// Handle user registration and automatically log the user in
-export async function registerUser(first, last, email, password) {
+export async function loginUser(email, password) {
   try {
-    const response = await fetch(`${API_BASE_URL}/users/register`, {
+    const response = await fetch(`${API_URL}/users/login`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ first, last, email, password }), // Send registration details
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
     });
 
-    const data = await response.json();
-    console.log("registerUser response data:", data);
+    const json = await response.json();
 
-    if (response.ok) {
-      // If registration is successful, log the user in
-      const loginResult = await loginUser(email, password);
-      if (loginResult.success) {
-        return {
-          token: localStorage.getItem("authToken"),
-          message: "Registration and login successful!",
-        };
-      } else {
-        return { token: null, message: loginResult.message };
-      }
-    } else {
-      const errorMessage = data.message || "Sign-up failed";
-      throw new Error(errorMessage);
-    }
-  } catch (error) {
-    // Log any errors encountered during the registration process
-    console.error("An error occurred during sign-up and login:", error);
-    return { token: null, message: error.message };
-  }
-}
-
-// Check if a book is available by ID
-export async function checkBookAvailability(id) {
-  const url = `${API_BASE_URL}/books/${id}`;
-  try {
-    const response = await fetch(url);
-
-    // Check if the response is successful
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(json.message || "Login failed");
     }
 
-    const data = await response.json();
-    return data.book && data.book.available; // Return book availability status
-  } catch (error) {
-    // Log any errors encountered while checking availability
-    console.error("Error checking book availability:", error.message);
-    throw error;
+    return json;
+  } catch (err) {
+    console.error("Oops, something went wrong during login!", err);
+    throw err;
   }
 }
 
-// Fetch the current authenticated user's details
-export async function fetchCurrentUser() {
+export async function fetchUserDetails(token) {
   try {
-    const response = await fetch(`${API_BASE_URL}/users/me`, {
+    if (!token) {
+      throw new Error("User is not authenticated");
+    }
+
+    const response = await fetch(`${API_URL}/users/me`, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Include the auth token in the request
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const json = await response.json();
+    if (!response.ok) {
+      throw new Error(json.message || "Failed to fetch user details");
+    }
+    return json;
+  } catch (err) {
+    console.error("Error fetching user details:", err);
+    throw err;
+  }
+}
+
+export async function checkBook(bookId, token, available) {
+  try {
+    const response = await fetch(`${API_URL}/books/${bookId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        available,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to check out the book.");
+    }
+
+    const json = await response.json();
+    return json;
+  } catch (err) {
+    console.error("Uh oh, trouble checking out the book!", err);
+  }
+}
+
+export async function returnBook(reservationId, token) {
+  try {
+    const response = await fetch(`${API_URL}/reservations/${reservationId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
 
-    // If fetching the user is successful, return the user data
-    if (response.ok) {
-      return await response.json();
-    } else {
-      throw new Error(`Failed to fetch user: ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error("Failed to return the book.");
     }
-  } catch (error) {
-    // Log any errors encountered while fetching the current user
-    console.error("Error fetching current user:", error.message);
-    throw error;
+
+    const json = await response.json();
+    return json;
+  } catch (err) {
+    console.error("Uh oh, trouble returning the book!", err);
+  }
+}
+
+export async function getReservations(token) {
+  try {
+    const response = await fetch(`${API_URL}/reservations`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(json.message || "Failed");
+    }
+    const json = await response.json();
+
+    return json;
+  } catch (err) {
+    console.error("Error fetching:", err);
+    throw err; // Throw the error to handle it in the component
   }
 }
