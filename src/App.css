@@ -5,16 +5,24 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+  color: #ffffff; /* Ensure text is readable against the dark background */
+
+  line-height: 1.5;
+  font-weight: 400;
 }
 
 /* Books Container */
 .books-container {
+  font-family: "Baskervville SC", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 150%;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+  flex-wrap: wrap; /* Allows items to wrap to the next row */
+  gap: 20px; /* Space between the cards */
+  justify-content: center; /* Center the cards horizontally */
   align-items: center;
-  margin-top: 120px;
+  margin-top: 120px; /* Adjust as needed for your layout */
 }
 
 /* Navbar Styles */
@@ -218,6 +226,7 @@ body {
   box-sizing: border-box;
   overflow: auto;
   margin-top: 50px;
+  font-family: "Macondo", cursive;
 }
 
 #describe {
@@ -267,7 +276,7 @@ body {
   width: 90%;
   position: relative;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  font-family: Arial, sans-serif;
+  font-family: "Macondo", cursive;
 }
 
 .modal-content h2 {

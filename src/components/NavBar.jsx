@@ -1,33 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
 import { useAuth } from "./AuthContext";
 import { loginUser, registerUser } from "../API";
 
 function NavBar() {
-  const [showModal, setShowModal] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [showModal, setShowModal] = useState(false); // State for modal visibility
+  const [isSignUp, setIsSignUp] = useState(false); // State to toggle between login and sign-up
   const [loginData, setLoginData] = useState({
     first: "",
     last: "",
     email: "",
     password: "",
-  });
-  const [message, setMessage] = useState("");
-  const { isAuthenticated, login, logout, signup } = useAuth();
-  const { getCartCount } = useCart();
-  const navigate = useNavigate();
+  }); // State to store login/sign-up data
+  const [message, setMessage] = useState(""); // State to store feedback messages
+  const { isAuthenticated, login, logout, signup } = useAuth(); // Access authentication functions
+  const { getCartCount } = useCart(); // Access cart count from CartContext
+  const navigate = useNavigate(); // React Router hook for navigation
 
+  // Function to open the modal and toggle between login and sign-up forms
   function openModal(signUp = false) {
     setIsSignUp(signUp);
     setShowModal(true);
   }
 
+  // Function to close the modal and reset the message
   function closeModal() {
     setShowModal(false);
     setMessage("");
   }
 
+  // Handle input change for login/sign-up forms
   function handleInputChange(e) {
     const { name, value } = e.target;
     setLoginData({
@@ -36,21 +39,21 @@ function NavBar() {
     });
   }
 
+  // Handle login form submission
   async function handleLoginSubmit(e) {
     e.preventDefault();
-    console.log("Login attempt with email:", loginData.email);
     const result = await loginUser(loginData.email, loginData.password);
-    console.log("Login result:", result);
-    setMessage(result.message);
+    setMessage(result.message); // Display message in the modal
 
     if (result.success) {
       setLoginData({ ...loginData, password: "" });
-      closeModal();
+      closeModal(); // Close the modal on successful login
     } else {
       console.error("Login failed:", result.message);
     }
   }
 
+  // Handle sign-up form submission
   async function handleSignUpSubmit(e) {
     e.preventDefault();
     const result = await registerUser(
@@ -59,7 +62,8 @@ function NavBar() {
       loginData.email,
       loginData.password
     );
-    setMessage(result.message);
+    setMessage(result.message); // Display message in the modal
+
     if (result.success) {
       setLoginData({
         first: "",
@@ -67,14 +71,28 @@ function NavBar() {
         email: "",
         password: "",
       });
-      closeModal();
+      closeModal(); // Close the modal on successful sign-up
     }
   }
 
+  // Navigation functions
   const handleHomeClick = () => navigate("/");
   const handleCartClick = () => navigate("/cart");
   const handleLogOutClick = () => logout();
   const handleAccountClick = () => navigate("/myaccount");
+
+  // Handle modal accessibility and closing with the Esc key
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    }
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <nav className="navbar">
@@ -82,20 +100,22 @@ function NavBar() {
       <div className="search">
         <button onClick={handleHomeClick}>Home</button>
         <button onClick={handleCartClick} className="cart-button">
-          Cart ({getCartCount()})
+          Cart ({getCartCount()}) {/* Display cart count */}
         </button>
         {!isAuthenticated ? (
-          <button onClick={() => openModal()}>Log In / Sign Up</button>
+          <button onClick={() => openModal()}>Log In / Sign Up</button> // Toggle modal for login/sign-up
         ) : (
-          <button onClick={handleLogOutClick}>Logout</button>
+          <button onClick={handleLogOutClick}>Logout</button> // Logout button
         )}
-        <button onClick={handleAccountClick}>My Account</button>
+        <button onClick={handleAccountClick}>My Account</button>{" "}
+        {/* Navigate to My Account */}
       </div>
 
       {showModal && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            {message && <p className="message">{message}</p>}
+            {message && <p className="message">{message}</p>}{" "}
+            {/* Display feedback message */}
             {isSignUp ? (
               <form onSubmit={handleSignUpSubmit}>
                 <label>
@@ -142,7 +162,8 @@ function NavBar() {
                   <button type="submit">Sign Up</button>
                   <p>
                     Already have an account?{" "}
-                    <span onClick={() => openModal(false)}>Log In</span>
+                    <span onClick={() => openModal(false)}>Log In</span>{" "}
+                    {/* Toggle to login form */}
                   </p>
                 </div>
               </form>
@@ -172,13 +193,14 @@ function NavBar() {
                   <button type="submit">Log In</button>
                   <p>
                     Don't have an account?{" "}
-                    <span onClick={() => openModal(true)}>Sign Up</span>
+                    <span onClick={() => openModal(true)}>Sign Up</span>{" "}
+                    {/* Toggle to sign-up form */}
                   </p>
                 </div>
               </form>
             )}
             <button id="close-modal" onClick={closeModal}>
-              X
+              X {/* Close modal button */}
             </button>
           </div>
         </div>

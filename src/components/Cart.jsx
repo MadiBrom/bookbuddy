@@ -5,30 +5,34 @@ import { useAuth } from "./AuthContext";
 import NavBar from "./NavBar";
 
 function Cart() {
-  const navigate = useNavigate();
-  const { cart } = useCart();
-  const { user, login, signup } = useAuth();
-  const [showModal, setShowModal] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(false);
+  const navigate = useNavigate(); // React Router hook for navigation
+  const { cart } = useCart(); // Access the cart from CartContext
+  const { user, login, signup } = useAuth(); // Access authentication functions
+  const [showModal, setShowModal] = useState(false); // State for modal visibility
+  const [isSignUp, setIsSignUp] = useState(false); // State to toggle between login and sign-up
   const [loginData, setLoginData] = useState({
     first: "",
     last: "",
     email: "",
     password: "",
-  });
-  const [message, setMessage] = useState("");
+  }); // State to store login/sign-up data
+  const [message, setMessage] = useState(""); // State to store feedback messages
+
   console.log("User state in Cart component:", user);
 
+  // Function to open the login/sign-up modal
   function openModal(signUp = false) {
     setIsSignUp(signUp);
     setShowModal(true);
   }
 
+  // Function to close the modal and reset the message
   function closeModal() {
     setShowModal(false);
     setMessage("");
   }
 
+  // Handle input change for login/sign-up forms
   function handleInputChange(e) {
     const { name, value } = e.target;
     setLoginData({
@@ -37,16 +41,21 @@ function Cart() {
     });
   }
 
+  // Handle login form submission
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const result = await login(loginData.email, loginData.password);
     setMessage(result.message);
+
     if (result.success) {
       closeModal();
       navigate("/cart"); // Redirect to cart after successful login
+    } else {
+      setMessage("Login failed. Please try again."); // Display an error message in the modal
     }
   };
 
+  // Handle sign-up form submission
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
     const result = await signup(
@@ -56,17 +65,16 @@ function Cart() {
       loginData.password
     );
     setMessage(result.message);
+
     if (result.success) {
       closeModal();
-      navigate("/cart"); // Redirect to cart after successful signup
+      navigate("/cart"); // Redirect to cart after successful sign-up
+    } else {
+      setMessage("Sign-up failed. Please try again."); // Display an error message in the modal
     }
   };
 
-  // if (!isAuthenticated) {
-  //   history.push("/login");
-  //   return null;
-  // }
-
+  // If the user is not logged in, show the login/sign-up prompt
   if (!user) {
     return (
       <div className="cart-container">
@@ -77,15 +85,14 @@ function Cart() {
             <button onClick={() => openModal(false)}>Log In</button>
             <button onClick={() => openModal(true)}>Sign Up</button>
           </div>
-          <button is="home" onClick={() => navigate("/")}>
-            Home
-          </button>
+          <button onClick={() => navigate("/")}>Home</button>
         </div>
 
         {showModal && (
           <div className="modal-overlay" onClick={closeModal}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              {message && <p className="message">{message}</p>}
+              {message && <p className="message">{message}</p>}{" "}
+              {/* Display feedback message */}
               {isSignUp ? (
                 <form onSubmit={handleSignUpSubmit}>
                   <label>
@@ -132,7 +139,8 @@ function Cart() {
                     <button type="submit">Sign Up</button>
                     <p>
                       Already have an account?{" "}
-                      <span onClick={() => openModal(false)}>Log In</span>
+                      <span onClick={() => openModal(false)}>Log In</span>{" "}
+                      {/* Toggle to login form */}
                     </p>
                   </div>
                 </form>
@@ -162,13 +170,14 @@ function Cart() {
                     <button type="submit">Log In</button>
                     <p>
                       Don't have an account?{" "}
-                      <span onClick={() => openModal(true)}>Sign Up</span>
+                      <span onClick={() => openModal(true)}>Sign Up</span>{" "}
+                      {/* Toggle to sign-up form */}
                     </p>
                   </div>
                 </form>
               )}
               <button id="close-modal" onClick={closeModal}>
-                X
+                X {/* Close modal button */}
               </button>
             </div>
           </div>
@@ -177,13 +186,14 @@ function Cart() {
     );
   }
 
+  // If the user is logged in, display the cart contents
   return (
     <div className="cart-container">
       <NavBar setSearchParams={() => {}} />
       <div className="cart">
         <h1 id="title">Your Cart</h1>
         {cart.length === 0 ? (
-          <p>Your cart is empty.</p>
+          <p>Your cart is empty.</p> // Display message if the cart is empty
         ) : (
           <ul>
             {cart.map((book, index) => (

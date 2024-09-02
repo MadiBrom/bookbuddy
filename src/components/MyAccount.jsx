@@ -1,19 +1,24 @@
-// MyAccount.jsx
 import React, { useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
+import { useNavigate } from "react-router-dom";
 
-function MyAccount() {
+function MyAccount({ showLoginModal }) {
   const { user, isAuthenticated } = useAuth(); // Access user info and authentication status
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState(null); // State to store user information
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated) {
       setUserInfo(user); // Set user info when authenticated
+    } else {
+      showLoginModal(); // Show the login modal if not authenticated
+      navigate("/"); // Navigate to home or another page after showing modal
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user, showLoginModal, navigate]); // Dependencies ensure this effect runs when authentication status or user data changes
 
+  // If user is not authenticated, the modal will show, so don't render anything else
   if (!isAuthenticated) {
-    return <p>Please log in to view your account details.</p>;
+    return null;
   }
 
   return (
@@ -22,15 +27,17 @@ function MyAccount() {
       {userInfo ? (
         <div>
           <p>
-            <strong>Name:</strong> {userInfo.name}
+            <strong>Name:</strong> {userInfo.name || "No name available"}{" "}
+            {/* Handle cases where name might be missing */}
           </p>
           <p>
-            <strong>Email:</strong> {userInfo.email}
+            <strong>Email:</strong> {userInfo.email || "No email available"}{" "}
+            {/* Handle cases where email might be missing */}
           </p>
           {/* Add other user information as needed */}
         </div>
       ) : (
-        <p>Loading...</p>
+        <p>Loading account details...</p>
       )}
     </div>
   );

@@ -5,15 +5,26 @@ const UserContext = createContext();
 
 // Create the UserProvider component
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // Initial state could be null, or you can define a default user object
+  // Initial state for the user, could be more structured depending on app requirements
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    // add other fields as necessary
+  });
 
   // Function to update user details
   const updateUser = (userData) => {
-    setUser(userData);
+    // Update the user state with the provided data
+    if (userData && typeof userData === "object") {
+      setUser(userData);
+    } else {
+      console.error("Invalid user data provided");
+    }
   };
 
   // Function to clear user details (e.g., on logout)
   const clearUser = () => {
+    // Reset the user state to null or initial state
     setUser(null);
   };
 
