@@ -12,11 +12,21 @@ class ErrorBoundary extends Component {
 
   componentDidCatch(error, errorInfo) {
     console.error("Error caught in ErrorBoundary:", error, errorInfo);
+    // You can also send error details to an error reporting service here
   }
+
+  handleRetry = () => {
+    this.setState({ hasError: false });
+  };
 
   render() {
     if (this.state.hasError) {
-      return <h1>Something went wrong.</h1>;
+      return (
+        <div>
+          <h1>Something went wrong.</h1>
+          <button onClick={this.handleRetry}>Retry</button>
+        </div>
+      );
     }
 
     return this.props.children;
