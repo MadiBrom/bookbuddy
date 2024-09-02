@@ -33,25 +33,27 @@ export default function Books() {
           />
         </label>
       </div>
-      <div className="main-div">
-        {booksToDisplay &&
-          booksToDisplay.map((book) => (
-            <main
-              className="all-books"
-              key={book.id}
-              onClick={() => {
-                navigate(`/books/${book.id}`);
-              }}
-            >
-              <h2>{book.title}</h2>
-              <img
-                className="cover"
-                src={book.coverimage}
-                alt={`${book.title} cover`}
-              />
-              <h5>by {book.author}</h5>
-            </main>
-          ))}
+      <div id="container">
+        <div className="main-div">
+          {booksToDisplay &&
+            booksToDisplay.map((book) => (
+              <main
+                className="all-books"
+                key={book.id}
+                onClick={() => {
+                  navigate(`/books/${book.id}`);
+                }}
+              >
+                <h2>{book.title}</h2>
+                <img
+                  className="cover"
+                  src={book.coverimage}
+                  alt={`${book.title} cover`}
+                />
+                <h5>by {book.author}</h5>
+              </main>
+            ))}
+        </div>
       </div>
     </>
   );

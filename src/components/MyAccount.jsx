@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchUserDetails, returnBook } from "../API";
 
-const Account = ({ token, setToken }) => {
+const MyAccount = ({ token, setToken }) => {
   const [userData, setUserData] = useState(null);
   const fetchUserData = async () => {
     const response = await fetchUserDetails(token);
@@ -70,4 +70,4 @@ const Account = ({ token, setToken }) => {
   );
 };
 
-export default Account;
+export default MyAccount;

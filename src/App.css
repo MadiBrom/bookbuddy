@@ -1,430 +1,393 @@
-/* Global Styles */
 body {
-  margin: 0;
-  background-image: url(https://wallpaperbat.com/img/374685-free-download-old-library-wallpaper-wall-decor-1500x1000.jpg);
+  background-image: url("./components/background.jpg");
   background-repeat: no-repeat;
-  background-size: cover;
   background-attachment: fixed;
-  color: #ffffff; /* Ensure text is readable against the dark background */
-  line-height: 1.5;
-  font-weight: 400;
-}
-
-/* Global Font Styling */
-body,
-button,
-input,
-p,
-h2,
-h3,
-h5 {
-  font-family: "Baskervville SC", serif;
-  color: #ffffff; /* Consistent text color */
-}
-
-/* Books Container */
-.books-container {
-  font-family: "Baskervville SC", serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 150%;
-  display: flex;
-  flex-wrap: wrap; /* Allows items to wrap to the next row */
-  gap: 20px; /* Space between the cards */
-  justify-content: center; /* Center the cards horizontally */
-  align-items: center;
-  margin-top: 120px; /* Adjust as needed for your layout */
-}
-
-/* Navbar Styles */
-.navbar {
-  color: white;
-  background: rgba(32, 10, 1, 0.637);
-  box-shadow: 0 10px 20px black;
-  padding: 15px 30px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  background-size: cover;
+  background-color: #1c1c1c;
+  color: #f0f0f0;
+  font-family: "Times New Roman", Times, serif;
   margin: 0;
-  width: 100%;
-  box-sizing: border-box;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
+  padding: 0;
 }
 
-/* Navbar Buttons */
-.navbar button {
-  margin-left: 10px;
-  padding: 10px 20px;
-  background: rgba(255, 255, 255, 0.8);
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-  font-size: 16px;
-}
-
-/* Button Focus State */
-button:focus {
-  outline: 2px solid #f0caba;
-  outline-offset: 2px;
-}
-
-.navbar button:hover {
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* Navbar Links */
-.navbar .nav-links {
-  display: flex;
-  gap: 20px;
-}
-
-.navbar .nav-links a {
-  color: rgb(255, 244, 239);
+a {
   text-decoration: none;
-  font-size: 18px;
-  transition: color 0.3s ease;
+  color: inherit;
 }
 
-.navbar .nav-links a:hover {
-  color: #f0caba;
-  text-decoration: underline;
-}
-
-/* Responsive Navbar Adjustments */
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 10px;
-  }
-
-  .navbar button {
-    width: 100%;
-    margin-left: 0;
-    margin-top: 10px;
-  }
-
-  .navbar .nav-links {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-}
-
-/* Book Card Styles */
-.book-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 250px;
-  max-width: 300px;
-  padding: 15px;
-  background-color: #705240c0;
-  box-shadow: 5px 10px 10px black;
-  color: #d8d8d8;
-  text-align: center;
-  transition: transform 0.3s ease;
-}
-
-.book-card:hover {
-  transform: scale(1.05);
-}
-
-/* Book Card Image */
-.book-card img {
-  width: 100px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  margin-top: 15px;
-}
-
-/* Book Card Text */
-.book-card h3 {
-  margin: 10px 0 5px;
-  font-size: 20px; /* Adjusted for better readability */
-}
-
-.book-card h5 {
-  margin: 0;
-  font-size: 16px; /* Adjusted for better readability */
-}
-
-/* Responsive Book Card Styles */
-.bookcard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background-color: #705240c0;
-  box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.6);
-  color: #d8d8d8;
-  text-align: center;
-  border-radius: 15px;
-  max-width: 800px;
-  width: 100%;
-  margin: auto;
-}
-
-/* Responsive Book Card Image */
-.bookcard img {
-  width: 80%;
-  max-width: 200px;
-  height: auto;
-  object-fit: cover;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  margin-top: 15px;
-  box-shadow: 2px 5px 5px black;
-}
-
-/* Book Details */
-#titles {
-  font-family: "Macondo", cursive;
-  font-size: 40px;
-  color: rgb(253, 240, 240);
-  text-shadow: 3px 3px 5px black;
-  margin-bottom: 0px;
-}
-
-#info {
-  margin: 0;
-  padding-right: 40px;
-  padding-left: 40px;
-  font-size: 20px;
-  border-radius: 40px;
-  line-height: 0.5;
-  color: rgb(255, 227, 227);
-  text-shadow: 2px 2px 3px black;
-  margin-bottom: 20px;
-}
-
-#description {
-  font-size: 25px;
-  margin-top: 10px;
-  color: rgb(255, 227, 227);
-  text-shadow: 2px 2px 3px black;
-  margin-bottom: 120px;
-  object-fit: cover;
-  max-width: 500px; /* Limit the width of the description */
-  margin: 0 auto; /* Center the description text */
-  text-align: center; /* Center text within the description */
-}
-
-/* Buttons */
-.back-button,
-.add-cart {
-  background-color: rgba(240, 202, 178, 0.637);
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-radius: 10px;
-  box-shadow: 2px 2px 5px black;
-  margin-top: 10px;
-}
-
-/* Centering Book Card */
-.book-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  padding: 20px;
-  box-sizing: border-box;
-  overflow: auto;
-  margin-top: 50px;
-  font-family: "Macondo", cursive;
-}
-
-#describe {
-  display: flex;
-  flex-direction: row;
-  align-items: center; /* Vertically centers the image and text */
-  justify-content: center; /* Horizontally centers the image and text */
-  text-align: center; /* Centers the text inside the description */
-  margin-top: 20px;
-  gap: 20px; /* Space between the image and description */
-  max-width: 100%;
-  margin-bottom: 30px;
-}
-
-/* Responsive Book Card Adjustments */
-@media (max-width: 768px) {
-  .bookcard {
-    width: 100%;
-    padding: 10px;
-  }
-
-  .bookcard img {
-    max-width: 150px;
-  }
-}
-
-/* Modal Overlay */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.322);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-/* Modal Content */
-.modal-content {
-  background: #20130eef;
-  padding: 30px;
-  border-radius: 10px;
-  max-width: 500px;
-  width: 90%;
-  position: relative;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  font-family: "Macondo", cursive;
-}
-
-/* Modal Centering */
-.modal-overlay {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Focus Styles in Modal */
-.modal-content button:focus,
-.modal-content input:focus {
-  outline: 2px solid #f0caba;
-  outline-offset: 2px;
-}
-
-/* Modal Form Elements */
-.modal-content label {
-  display: block;
-  margin-bottom: 10px;
-  font-size: 25px;
-}
-
-.modal-content input {
-  width: calc(100% - 20px);
+/* Buttons and Inputs */
+button,
+input {
+  font-size: 1rem;
   padding: 10px;
-  margin-top: 5px;
-  border: 1px solid #ddd;
+  margin: 5px;
   border-radius: 5px;
-  box-shadow: 2px 2px 5px black;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
 }
 
-/* Modal Buttons */
-.modal-content button {
-  background-color: rgba(184, 176, 167, 0.507);
-  color: rgb(255, 255, 255);
-  text-shadow: 2px 2px 3px black;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+button {
   cursor: pointer;
-  font-size: 1em;
   transition: background-color 0.3s ease;
 }
 
-.modal-content button:hover {
-  background-color: rgba(189, 175, 160, 0.418);
+button:hover {
+  background-color: #007bff;
+  color: #fff;
 }
 
-.modal-content button:active {
-  background-color: rgba(189, 175, 160, 0.418);
-  transform: translateY(2px);
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header {
+    font-size: 2rem;
+  }
+
+  .navbar {
+    flex-direction: column;
+  }
+
+  #book-div {
+    padding: 10px;
+  }
+
+  .main-div {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .all-books {
+    width: 150px;
+  }
 }
 
-/* Modal Text */
-.modal-content p {
-  margin: 10px 0;
-  font-size: 1rem;
-  color: #333;
+/* Header */
+.header {
+  text-align: center;
+  font-size: 2.5rem;
+  margin: 20px 0;
+  color: #ff6666;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
-/* Cart Styles */
-.cart-container {
-  position: fixed;
-  top: 60px;
-  right: 20px;
-  background: rgba(32, 10, 1, 0.637);
-  border: 2px solid black;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  max-width: 300px;
+/* Navigation */
+#navigation {
   width: 100%;
+  background-color: #333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
   z-index: 1000;
-  color: #d8d8d8;
 }
 
-.cart-item {
+.navbar {
   display: flex;
+  justify-content: space-around;
   align-items: center;
-  margin-bottom: 15px; /* Adjusted for consistent spacing */
+  padding: 10px;
 }
 
-.cart-item img {
-  width: 50px;
-  height: 75px;
-  object-fit: cover;
-  margin-right: 10px;
-}
-
-.cart-item span {
-  flex: 1;
-}
-
-.checkout-button {
-  background-color: rgba(184, 176, 167, 0.507);
-  color: rgb(255, 255, 255);
-  text-shadow: 2px 2px 3px black;
-  border: none;
+.nav-button {
   padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #444;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: #ff6666;
+}
+
+/* Container that centers the entire content */
+.single-main {
+  display: flex;
+  justify-content: center; /* Centers the content horizontally */
+  align-items: center; /* Centers the content vertically */
+  height: 100vh; /* Full viewport height for vertical centering */
+  padding: 20px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+/* Styling for the book card */
+.single-book {
+  background-color: rgba(39, 0, 0, 0.9);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+  color: #eaeaea;
+  text-shadow: 2px 2px 5px rgb(255, 0, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Styling for the book title */
+.single-book h2 {
+  font-size: 3rem;
+  color: #ffffff;
+  font-family: "Baskervville SC", serif;
+  font-weight: 400;
+}
+
+/* Styling for the book cover image */
+.single-book img.cover {
+  max-width: 100%;
+  height: auto;
+  border-radius: 25px;
+  margin: 20px 0;
+  border: 2px solid #000;
+}
+
+/* Styling for the author name */
+.single-book h3 {
+  font-family: "Baskervville SC", serif;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #eaeaea;
+}
+
+/* Styling for the description heading */
+.single-book h4 {
+  font-family: "Baskervville SC", serif;
+  font-size: 1.7rem;
+  color: #ff0000;
+  text-shadow: 2px 2px 5px black;
+}
+
+/* Styling for the book description */
+.single-book p {
+  font-family: "Macondo", cursive;
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 2.6;
+  color: #eaeaea;
+  margin-bottom: 20px;
+  width: fit-content;
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-top: 40px;
+  text-align: center; /* Ensure text is centered within the container */
+}
+
+/* Styling for the checkout button */
+.checkout-button {
+  background-color: #ff0000;
+  color: #ffffff;
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
   transition: background-color 0.3s ease;
 }
 
 .checkout-button:hover {
-  background-color: rgba(189, 175, 160, 0.418);
+  background-color: #d40000;
 }
 
-/* Responsive Cart Styles */
-@media (max-width: 768px) {
-  .cart-container {
-    width: 90%;
-    padding: 15px;
-  }
-
-  .cart-item img {
-    width: 40px;
-    height: 60px;
-  }
+/* Styling for availability status */
+.availability-status {
+  margin-bottom: 20px;
 }
 
-/* Smooth Transitions */
-button,
-.navbar .nav-links a {
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+.green-text {
+  color: #00ff00;
+  font-weight: bold;
 }
 
-button:hover,
-.navbar .nav-links a:hover {
+.red-text {
+  color: #ff0000;
+  font-weight: bold;
+}
+
+/* Availability Information */
+.availability-status p {
+  font-size: 1rem;
+  margin: 10px 0;
+}
+
+.green-text {
+  background-color: #000;
+  color: #00f5d4;
+}
+
+.red-text {
+  background-color: #000;
+  color: #dc3545;
+}
+
+/* Checkout Button */
+.checkout-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.checkout-button:hover {
+  background-color: #0056b3;
+}
+
+/* Container for Book Display */
+#container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Main Book Display */
+.main-div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.all-books {
+  background-color: rgba(80, 6, 6, 0.7);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.8);
+  width: 200px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 2px solid rgba(31, 0, 0, 0.9);
+}
+
+.all-books:hover {
   transform: scale(1.05);
+  box-shadow: -2px 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.all-books h2 {
+  font-family: "Baskervville SC", serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #eaeaea;
+}
+
+.all-books img.cover {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.all-books h5 {
+  font-family: "Baskervville SC", serif;
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: #eaeaea;
+}
+
+/* Search Bar */
+.search {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.search input {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.search input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Container for Login Form */
+.registration {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  background-color: rgba(39, 0, 0, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+  max-width: 100%;
+  width: 400px;
+  margin: 0 auto;
+}
+
+/* Unauthorized Heading */
+.unauthorized {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #ff6666;
+}
+
+/* Form Labels */
+.registration form label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #eaeaea;
+}
+
+/* Form Inputs */
+.registration form input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Error Message */
+.registration form p {
+  color: #ff6666;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Login Button */
+.login-button {
+  width: 100%;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #0056b3;
 }

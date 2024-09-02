@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function Navigations({ token }) {
+export default function NavBar({ token }) {
   return (
     <div className="navbar">
       <Link to="/">

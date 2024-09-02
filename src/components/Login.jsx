@@ -49,9 +49,6 @@ const Login = ({ token, setToken }) => {
                   placeholder="Enter your email"
                   required
                 />
-              </label>
-              <br />
-              <label>
                 Password:
                 <input
                   type="password"

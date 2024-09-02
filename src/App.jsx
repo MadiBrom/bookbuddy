@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Books from "./pages/AllBooks";
-import Navigations from "./components/NavBar";
+import NavBar from "./components/NavBar";
 import SingleBook from "./pages/SingleBook";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Account from "./components/Account";
+import MyAccount from "./components/MyAccount";
 import { getReservations } from "./API";
 import { useEffect } from "react";
+import "./App.css";
 
 function App() {
   const [token, setToken] = useState(null);
@@ -28,9 +29,9 @@ function App() {
   return (
     <>
       <div id="navigation">
-        <Navigations setSearchParams={setSearchParams} token={token} />
+        <NavBar setSearchParams={setSearchParams} token={token} />
       </div>
-      <h1 className="header">Library App</h1>
+      <h1 className="header">The Underground Library</h1>
       <div id="book-div">
         <Routes>
           <Route
@@ -54,7 +55,7 @@ function App() {
           <Route
             path="/users/me"
             element={
-              <Account
+              <MyAccount
                 token={token}
                 setToken={setToken}
                 reservations={reservations}
