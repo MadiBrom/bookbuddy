@@ -17,7 +17,7 @@ const MyAccount = ({ token, setToken }) => {
     <div>
       {userData ? (
         <div>
-          <h2 className="header">Welcome!</h2>
+          <h2 className="header">Welcome, {userData.firstName}!</h2>
           <br />
           <h1 className="header1">My Books</h1>
           <div className="main-div">
@@ -49,9 +49,7 @@ const MyAccount = ({ token, setToken }) => {
           </div>
         </div>
       ) : (
-        <div className="unauthorized">
-          <h2>Please log in or create an account to continue.</h2>
-        </div>
+        <div></div>
       )}
       {userData ? (
         <div className="registration-container">

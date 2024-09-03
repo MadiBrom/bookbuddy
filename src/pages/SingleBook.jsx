@@ -29,15 +29,15 @@ export default function SingleBook({ token }) {
           <main className="single-book" key={book.id}>
             <section>
               <div>
+                <h2>{book.title}</h2>
                 <img className="cover" src={book.coverimage} alt={book.title} />
                 <h3>by {book.author}</h3>{" "}
               </div>
-              <div>
-                <p>{book.description}</p>
-              </div>
             </section>
             <div className="availability-status">
-              <h2>{book.title}</h2>
+              <p id="description">{book.description}</p>
+              <br />
+              <br />
               {book.available ? (
                 <p className="green-text">This book is available.</p>
               ) : (

@@ -11,7 +11,8 @@ body {
 }
 .title {
   margin-left: 10px;
-  margin-top: 100px;
+  margin-top: 0px;
+  margin-bottom: 0px;
   font-size: 50px;
   font-family: "Grenze Gotisch", serif;
   font-optical-sizing: auto;
@@ -74,30 +75,32 @@ button:hover {
 /* Header */
 .header {
   text-align: center;
-  font-size: 2.5rem;
-  margin: 20px 0;
-  color: #32cd32;
+  font-size: 3rem;
+  margin: 0px 0;
+  color: #ffffff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 .header1 {
   text-align: center;
-  font-size: 2.5rem;
-  margin: 20px 0;
-  color: #4232cd;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  font-size: 2rem;
+  margin-top: 50px;
+  margin-bottom: 0;
+  color: #ffffff;
+  text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.7);
 }
 .header2 {
   text-align: center;
   font-size: 2.5rem;
   margin: 20px 0;
-  color: #cd329f;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  text-shadow: 4px 4px 1px rgba(0, 0, 0, 0.7);
 }
 
 /* Navigation */
 #navigation {
   width: 100%;
-  background: linear-gradient(0deg, transparent 0%, #91a488 100%);
+  height: 300px;
+  background: linear-gradient(0deg, transparent 0%, #303524ec 100%);
   position: fixed;
   top: 0;
   left: 0;
@@ -157,6 +160,7 @@ button:hover {
 
 /* Styling for the book title */
 .single-book h2 {
+  text-shadow: 2px 2px 8px black;
   font-size: 3rem;
   color: #ffffff;
   font-family: "Baskervville SC", serif;
@@ -165,6 +169,7 @@ button:hover {
 
 /* Styling for the book cover image */
 .single-book img.cover {
+  box-shadow: 2px 2px 8px black;
   max-width: 100%;
   height: auto;
   border-radius: 25px;
@@ -174,6 +179,7 @@ button:hover {
 
 /* Styling for the author name */
 .single-book h3 {
+  text-shadow: 2px 2px 8px black;
   font-family: "Baskervville SC", serif;
   font-size: 1.4rem;
   margin-bottom: 15px;
@@ -182,20 +188,19 @@ button:hover {
 
 /* Container for Book Display */
 #container {
+  text-shadow: 2px 2px 8px black;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   padding: 20px;
   box-sizing: border-box;
-  background-color: #1c1c1c; /* Dark background for contrast */
 }
 
 /* Styling for the book card */
 .single-book-card {
-  background-color: #2e2e2e; /* Darker background for the card */
   border-radius: 10px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5); /* Adding a subtle shadow */
+  box-shadow: 0px 4px 15px rgb(0, 0, 0); /* Adding a subtle shadow */
   padding: 30px;
   max-width: 500px;
   width: 100%;
@@ -225,29 +230,46 @@ button:hover {
   font-weight: 400;
   font-size: 1;
 }
-
+#description {
+  width: fit-content;
+  max-width: 400px;
+  font-size: 20px;
+  align-self: center; /* Centers the element within a flex container */
+  justify-self: center;
+  text-align: center; /* Centers text inside the description box */
+  text-shadow: 2px 2px 8px black;
+}
+.availability-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Adjust as needed */
+  margin-right: 20px;
+  margin-left: 20px;
+  margin-bottom: -100px;
+}
 /* Main Book Display */
 .main-div {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
-  max-width: 1200px;
+  max-width: fit-content;
   margin: 0 auto;
   padding: 20px;
   box-sizing: border-box;
 }
 
 .all-books {
-  background-color: rgba(34, 139, 34, 0.7);
-  padding: 15px;
+  background-color: rgba(39, 22, 0, 0.74);
+  padding: 35px; /* Reduced padding to help maintain squareness */
   border-radius: 8px;
   box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.8);
-  width: 200px;
+  width: 250px; /* Increased width for squareness */
+  height: 280px; /* Set a height to make the card more square */
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 2px solid rgba(0, 100, 0, 0.9);
 }
 
 .all-books:hover {
@@ -256,15 +278,17 @@ button:hover {
 }
 
 .all-books h2 {
-  font-family: "Baskervville SC", serif;
-  font-weight: 400;
-  font-size: 1.5rem;
+  text-shadow: 2px 2px 1px black;
+  font-family: "Bellefair", serif;
+  font-weight: 800;
+  font-size: 1.6rem; /* Adjusted to fit better within the new square dimensions */
+  margin-bottom: 5px;
+  color: #ffeec1;
   margin-bottom: 10px;
-  color: #eaeaea;
 }
 
 .all-books img.cover {
-  width: 100%;
+  width: 100px;
   height: auto;
   border-radius: 5px;
   margin-bottom: 10px;
@@ -274,7 +298,9 @@ button:hover {
   font-family: "Baskervville SC", serif;
   font-weight: 400;
   font-size: 1.2rem;
-  color: #f0f0f0;
+  color: #ffeec1;
+  margin-top: 0px;
+  text-shadow: 2px 2px 1px black;
 }
 
 /* Search Bar */
@@ -305,6 +331,7 @@ button:hover {
   width: 100vw; /* Full width of the viewport */
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .registration {
   display: flex;
@@ -316,21 +343,77 @@ button:hover {
   width: 400px;
   margin: 0 auto;
 }
+#login {
+  margin-top: 300px;
+}
+#label {
+  color: white;
+  font-size: 30px;
+}
 
+.logingin {
+  background-color: #061300;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 4px 4px 2px rgb(0, 0, 0);
+  max-width: 600px; /* Limits the size of the form */
+  margin: 100px auto; /* Centers the form horizontally */
+  position: absolute;
+  padding-right: 50px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.logingin form label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+/* Form Inputs */
+.logingin form input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Error Message */
+.logingin form p {
+  color: #ff6347;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
 /* Unauthorized Heading */
 .unauthorized {
   text-align: center;
   font-size: 2rem;
-  margin-bottom: 20px;
+  margin-bottom: auto;
+  margin-top: 500px;
   color: #ff6347;
+  background-color: rgba(54, 53, 52, 0.678);
 }
 
 /* Form Labels */
+.registration {
+  background-image: url(components/upclose.png);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  max-width: 400px; /* Limits the size of the form */
+  margin: 100px auto; /* Centers the form horizontally */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .registration form label {
   display: block;
   font-size: 1rem;
   margin-bottom: 10px;
-  color: #eaeaea;
 }
 
 /* Form Inputs */
@@ -353,17 +436,28 @@ button:hover {
 
 /* Login Button */
 .login-button {
-  width: 100%;
+  width: 100px;
   padding: 10px 20px;
   font-size: 1.1rem;
   color: #fff;
-  background-color: #228b22;
+  background: linear-gradient(109deg, rgba(0, 0, 0, 0.64) 0%, #1c5500 100%);
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  box-shadow: 4px 4px 2px black;
 }
 
 .login-button:hover {
   background-color: #006400;
+}
+.login-button:active {
+  background: linear-gradient(
+    109deg,
+    #091a00 2%,
+    #1c5500 45%,
+    rgba(64, 195, 0, 0.64) 97%
+  );
+  transform: translateY(3px);
+  box-shadow: 0px 0px 2px black;
 }

@@ -36,11 +36,14 @@ const Login = ({ token, setToken }) => {
     <div>
       {!token ? (
         <>
-          <h2 className="unauthorized">Login</h2>
-          <div className="registration">
+          <h2 className="header" id="login">
+            Login
+          </h2>
+          <div className="logingin">
+            <h3>Sign In</h3>
             <form onSubmit={handleSubmit}>
               {error && <p style={{ color: "brown" }}>{error}</p>}
-              <label>
+              <label id="label">
                 Email:
                 <input
                   type="email"

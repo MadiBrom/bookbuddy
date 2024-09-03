@@ -11,66 +11,72 @@ const Register = ({ setToken }) => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const response = await createNewUser(firstName, lastName, email, password);
-    const result = await response;
-    setToken(result.token);
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPassword("");
-    navigate("/users/login");
+    try {
+      const result = await createNewUser(firstName, lastName, email, password);
+      console.log("Registration result:", result); // Check the API response structure
+      if (result && result.token) {
+        setToken(result.token); // Store the token if it's available
+        navigate("/users/login"); // Redirect to login after successful registration
+      } else {
+        console.error("Registration failed:", result); // Log an error if registration fails
+      }
+    } catch (error) {
+      console.error("Error during registration:", error); // Handle any unexpected errors
+    }
   }
 
   return (
-    <div>
-      <>
-        <h2 className="unauthorized">Register New Account</h2>
-        <div className="registration">
-          <form onSubmit={handleSubmit}>
-            <label>
-              First name:{" "}
-              <input
-                placeholder="First name"
-                type="text"
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-            </label>
-            <br />
-            <br />
-            <label>
-              Last name:{" "}
-              <input
-                placeholder="Last name"
-                type="text"
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </label>
-            <br />
-            <br />
-            <label>
-              Email:{" "}
-              <input
-                placeholder="Email"
-                type="email"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </label>
-            <br />
-            <br />
-            <label>
-              Password:{" "}
-              <input
-                placeholder="Password"
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </label>
-            <br />
-            <br />
-            <button className="login-button">Submit</button>
-          </form>
-        </div>
-      </>
+    <div id="register">
+      <h2 className="header1" id="login">
+        Register New Account
+      </h2>
+      <div className="registration">
+        <form onSubmit={handleSubmit}>
+          <label>
+            First name:{" "}
+            <input
+              placeholder="First name"
+              value={firstName}
+              type="text"
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+          </label>
+          <br />
+          <br />
+          <label>
+            Last name:{" "}
+            <input
+              placeholder="Last name"
+              value={lastName}
+              type="text"
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </label>
+          <br />
+          <br />
+          <label>
+            Email:{" "}
+            <input
+              placeholder="Email"
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </label>
+          <br />
+          <br />
+          <label>
+            Password:{" "}
+            <input
+              placeholder="Password"
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+          <br />
+          <br />
+          <button className="login-button">Submit</button>
+        </form>
+      </div>
     </div>
   );
 };

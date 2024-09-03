@@ -20,14 +20,14 @@ export async function fetchSingleBook(id) {
   }
 }
 
-export async function createNewUser(firstname, lastname, email, password) {
+export async function createNewUser(firstName, lastName, email, password) {
   try {
     const response = await fetch(`${API_URL}/users/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        firstname,
-        lastname,
+        firstName,
+        lastName,
         email,
         password,
       }),
@@ -66,6 +66,8 @@ export async function fetchUserDetails(token) {
       throw new Error("User is not authenticated");
     }
 
+    console.log("Fetching user details with token:", token); // Log the token
+
     const response = await fetch(`${API_URL}/users/me`, {
       method: "GET",
       headers: {
@@ -73,10 +75,15 @@ export async function fetchUserDetails(token) {
         Authorization: `Bearer ${token}`,
       },
     });
+
     const json = await response.json();
+
+    console.log("API response:", json); // Log the API response
+
     if (!response.ok) {
       throw new Error(json.message || "Failed to fetch user details");
     }
+
     return json;
   } catch (err) {
     console.error("Error fetching user details:", err);
