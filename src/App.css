@@ -1,5 +1,5 @@
 body {
-  background-image: url("./components/background.jpg");
+  background-image: url("https://pbs.twimg.com/media/FZaNHaTXgAAddqE?format=jpg&name=large");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -116,6 +116,7 @@ button:hover {
 
 /* Styling for the book card */
 .single-book {
+  margin-bottom: 50px;
   background-color: rgba(39, 0, 0, 0.9);
   padding: 20px;
   border-radius: 8px;
@@ -126,7 +127,7 @@ button:hover {
   color: #eaeaea;
   text-shadow: 2px 2px 5px rgb(255, 0, 0);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
 }
 
@@ -143,24 +144,16 @@ button:hover {
   max-width: 100%;
   height: auto;
   border-radius: 25px;
-  margin: 20px 0;
+  margin: 10px 0;
   border: 2px solid #000;
 }
 
 /* Styling for the author name */
 .single-book h3 {
   font-family: "Baskervville SC", serif;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   margin-bottom: 15px;
   color: #eaeaea;
-}
-
-/* Styling for the description heading */
-.single-book h4 {
-  font-family: "Baskervville SC", serif;
-  font-size: 1.7rem;
-  color: #ff0000;
-  text-shadow: 2px 2px 5px black;
 }
 
 /* Styling for the book description */
