@@ -3,13 +3,21 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-  background-color: #1c1c1c;
+  background-color: #2e3a1f;
   color: #f0f0f0;
   font-family: "Times New Roman", Times, serif;
   margin: 0;
   padding: 0;
 }
-
+.title {
+  margin-left: 10px;
+  margin-top: 100px;
+  font-size: 50px;
+  font-family: "Grenze Gotisch", serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+}
 a {
   text-decoration: none;
   color: inherit;
@@ -18,12 +26,15 @@ a {
 /* Buttons and Inputs */
 button,
 input {
+  font-family: "Bellefair", serif;
+  font-weight: 400;
+  font-style: normal;
   font-size: 1rem;
   padding: 10px;
   margin: 5px;
   border-radius: 5px;
   border: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 button {
@@ -32,7 +43,7 @@ button {
 }
 
 button:hover {
-  background-color: #007bff;
+  background-color: #228b22;
   color: #fff;
 }
 
@@ -65,15 +76,28 @@ button:hover {
   text-align: center;
   font-size: 2.5rem;
   margin: 20px 0;
-  color: #ff6666;
+  color: #32cd32;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+.header1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin: 20px 0;
+  color: #4232cd;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+.header2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin: 20px 0;
+  color: #cd329f;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 /* Navigation */
 #navigation {
   width: 100%;
-  background-color: #333;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(0deg, transparent 0%, #91a488 100%);
   position: fixed;
   top: 0;
   left: 0;
@@ -89,9 +113,9 @@ button:hover {
 
 .nav-button {
   padding: 10px 20px;
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: #fff;
-  background-color: #444;
+  background-color: #2e8b57;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -99,15 +123,15 @@ button:hover {
 }
 
 .nav-button:hover {
-  background-color: #ff6666;
+  background-color: #32cd32;
 }
 
 /* Container that centers the entire content */
 .single-main {
   display: flex;
-  justify-content: center; /* Centers the content horizontally */
-  align-items: center; /* Centers the content vertically */
-  height: 100vh; /* Full viewport height for vertical centering */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   padding: 20px;
   box-sizing: border-box;
   margin: 0 auto;
@@ -117,15 +141,15 @@ button:hover {
 /* Styling for the book card */
 .single-book {
   margin-bottom: 50px;
-  background-color: rgba(39, 0, 0, 0.9);
+  background-color: rgba(34, 139, 34, 0.9);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
   max-width: 800px;
   width: 100%;
   text-align: center;
-  color: #eaeaea;
-  text-shadow: 2px 2px 5px rgb(255, 0, 0);
+  color: #f0f0f0;
+  text-shadow: 2px 2px 5px rgba(0, 100, 0, 0.7);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -156,86 +180,6 @@ button:hover {
   color: #eaeaea;
 }
 
-/* Styling for the book description */
-.single-book p {
-  font-family: "Macondo", cursive;
-  font-weight: 400;
-  font-size: 1.3rem;
-  line-height: 2.6;
-  color: #eaeaea;
-  margin-bottom: 20px;
-  width: fit-content;
-  margin-left: 50px;
-  margin-right: 50px;
-  margin-top: 40px;
-  text-align: center; /* Ensure text is centered within the container */
-}
-
-/* Styling for the checkout button */
-.checkout-button {
-  background-color: #ff0000;
-  color: #ffffff;
-  font-size: 1.2rem;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: background-color 0.3s ease;
-}
-
-.checkout-button:hover {
-  background-color: #d40000;
-}
-
-/* Styling for availability status */
-.availability-status {
-  margin-bottom: 20px;
-}
-
-.green-text {
-  color: #00ff00;
-  font-weight: bold;
-}
-
-.red-text {
-  color: #ff0000;
-  font-weight: bold;
-}
-
-/* Availability Information */
-.availability-status p {
-  font-size: 1rem;
-  margin: 10px 0;
-}
-
-.green-text {
-  background-color: #000;
-  color: #00f5d4;
-}
-
-.red-text {
-  background-color: #000;
-  color: #dc3545;
-}
-
-/* Checkout Button */
-.checkout-button {
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 1.1rem;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.checkout-button:hover {
-  background-color: #0056b3;
-}
-
 /* Container for Book Display */
 #container {
   display: flex;
@@ -244,6 +188,42 @@ button:hover {
   min-height: 100vh;
   padding: 20px;
   box-sizing: border-box;
+  background-color: #1c1c1c; /* Dark background for contrast */
+}
+
+/* Styling for the book card */
+.single-book-card {
+  background-color: #2e2e2e; /* Darker background for the card */
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5); /* Adding a subtle shadow */
+  padding: 30px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Styling for the book image */
+.single-book-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+/* Styling for the book title */
+.single-book-card h2 {
+  font-family: "Bellefair", serif;
+  font-weight: 700;
+  font-size: 2rem;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+/* Styling for the author */
+.single-book-card h3 {
+  font-family: "Bellefair", serif;
+  font-weight: 400;
+  font-size: 1;
 }
 
 /* Main Book Display */
@@ -259,7 +239,7 @@ button:hover {
 }
 
 .all-books {
-  background-color: rgba(80, 6, 6, 0.7);
+  background-color: rgba(34, 139, 34, 0.7);
   padding: 15px;
   border-radius: 8px;
   box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.8);
@@ -267,7 +247,7 @@ button:hover {
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 2px solid rgba(31, 0, 0, 0.9);
+  border: 2px solid rgba(0, 100, 0, 0.9);
 }
 
 .all-books:hover {
@@ -294,7 +274,7 @@ button:hover {
   font-family: "Baskervville SC", serif;
   font-weight: 400;
   font-size: 1.2rem;
-  color: #eaeaea;
+  color: #f0f0f0;
 }
 
 /* Search Bar */
@@ -311,24 +291,27 @@ button:hover {
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .search input:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: #228b22;
 }
 
 /* Container for Login Form */
+.registration-container {
+  background: linear-gradient(transparent 0%, #061300 100%);
+  width: 100vw; /* Full width of the viewport */
+  display: flex;
+  justify-content: center;
+}
 .registration {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   padding: 20px;
-  background-color: rgba(39, 0, 0, 0.9);
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
   max-width: 100%;
   width: 400px;
   margin: 0 auto;
@@ -339,7 +322,7 @@ button:hover {
   text-align: center;
   font-size: 2rem;
   margin-bottom: 20px;
-  color: #ff6666;
+  color: #ff6347;
 }
 
 /* Form Labels */
@@ -358,12 +341,12 @@ button:hover {
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* Error Message */
 .registration form p {
-  color: #ff6666;
+  color: #ff6347;
   font-weight: bold;
   margin-bottom: 15px;
 }
@@ -374,7 +357,7 @@ button:hover {
   padding: 10px 20px;
   font-size: 1.1rem;
   color: #fff;
-  background-color: #007bff;
+  background-color: #228b22;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -382,5 +365,5 @@ button:hover {
 }
 
 .login-button:hover {
-  background-color: #0056b3;
+  background-color: #006400;
 }

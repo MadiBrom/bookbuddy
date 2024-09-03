@@ -31,7 +31,7 @@ function App() {
       <div id="navigation">
         <NavBar setSearchParams={setSearchParams} token={token} />
       </div>
-      <h1 className="header">The Underground Library</h1>
+      <h1 className="title">The Underground Library</h1>
       <div id="book-div">
         <Routes>
           <Route
