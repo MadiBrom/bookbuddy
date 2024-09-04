@@ -17,7 +17,9 @@ const MyAccount = ({ token, setToken }) => {
     <div>
       {userData ? (
         <div>
-          <h2 className="header">Welcome, {userData.firstName}!</h2>
+          <h2 className="header" id="welcome">
+            Welcome!
+          </h2>
           <br />
           <h1 className="header1">My Books</h1>
           <div className="main-div">
@@ -53,7 +55,7 @@ const MyAccount = ({ token, setToken }) => {
       )}
       {userData ? (
         <div className="registration-container">
-          <div className="registration">
+          <div id="bottom">
             <h2 className="header2">Email: {userData.email}</h2>
             {token && (
               <button

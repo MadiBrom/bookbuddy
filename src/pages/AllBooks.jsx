@@ -35,9 +35,9 @@ export default function Books() {
       </div>
       <div id="container">
         <div className="main-div">
-          {booksToDisplay &&
+          {booksToDisplay.length > 0 ? (
             booksToDisplay.map((book) => (
-              <main
+              <div
                 className="all-books"
                 key={book.id}
                 onClick={() => {
@@ -51,8 +51,11 @@ export default function Books() {
                   alt={`${book.title} cover`}
                 />
                 <h5>by {book.author}</h5>
-              </main>
-            ))}
+              </div>
+            ))
+          ) : (
+            <p>No books found</p>
+          )}
         </div>
       </div>
     </>

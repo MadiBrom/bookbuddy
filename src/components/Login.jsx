@@ -40,7 +40,6 @@ const Login = ({ token, setToken }) => {
             Login
           </h2>
           <div className="logingin">
-            <h3>Sign In</h3>
             <form onSubmit={handleSubmit}>
               {error && <p style={{ color: "brown" }}>{error}</p>}
               <label id="label">
