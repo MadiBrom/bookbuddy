@@ -5,6 +5,7 @@ export default function NavBar({ token }) {
     <>
       <div className="navbar">
         <h1 className="title">The Underground Library</h1>
+
         <Link to="/">
           <button className="nav-button">Home</button>
         </Link>

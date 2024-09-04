@@ -53,6 +53,9 @@ export async function loginUser(email, password) {
       throw new Error(json.message || "Login failed");
     }
 
+    // Save token to local storage
+    localStorage.setItem("authToken", json.token);
+
     return json;
   } catch (err) {
     console.error("Oops, something went wrong during login!", err);
@@ -155,4 +158,12 @@ export async function getReservations(token) {
     console.error("Error fetching:", err);
     throw err; // Throw the error to handle it in the component
   }
+}
+
+export function logoutUser() {
+  // Remove token from local storage
+  localStorage.removeItem("authToken");
+
+  // You might also want to clear any other user-related data in your application state
+  console.log("User logged out, token removed.");
 }

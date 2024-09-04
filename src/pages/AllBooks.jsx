@@ -6,6 +6,19 @@ export default function Books() {
   const navigate = useNavigate();
   const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+
+  // Debounce logic
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 300); // 300ms delay
+
+    // Cleanup timeout if the user types before the timeout is over
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
 
   useEffect(() => {
     async function getAllBooks() {
@@ -15,25 +28,23 @@ export default function Books() {
     getAllBooks();
   }, []);
 
-  const booksToDisplay = searchTerm
+  const booksToDisplay = debouncedSearchTerm
     ? books.filter((book) =>
-        book.title.toLowerCase().includes(searchTerm.toLowerCase())
+        book.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
       )
     : books;
 
   return (
     <>
-      <div className="search">
-        <label>
+      <div id="container">
+        <div className="search">
           <input
-            type="text"
+            type="search"
             placeholder="Search by title"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-        </label>
-      </div>
-      <div id="container">
+        </div>
         <div className="main-div">
           {booksToDisplay.length > 0 ? (
             booksToDisplay.map((book) => (

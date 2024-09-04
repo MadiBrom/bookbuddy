@@ -60,7 +60,15 @@ button:hover {
   #book-div {
     padding: 10px;
   }
-
+  #account {
+    margin-top: auto;
+  }
+  .account-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   .main-div {
     padding: 10px;
     gap: 10px;
@@ -101,7 +109,7 @@ button:hover {
 /* Navigation */
 #navigation {
   width: 100%;
-  height: 300px;
+  height: 150px;
   background: linear-gradient(0deg, transparent 0%, #303524ec 100%);
   position: fixed;
   top: 0;
@@ -147,18 +155,19 @@ button:hover {
 .single-book {
   margin-top: 300px;
   margin-bottom: 50px;
-  background-color: rgba(34, 139, 34, 0.9);
+  background-color: rgba(34, 22, 1, 0.9);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
-  max-width: 800px;
-  width: 100%;
+  width: 1000px;
   text-align: center;
   color: #f0f0f0;
   text-shadow: 2px 2px 5px rgba(0, 100, 0, 0.7);
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-bottom: 400px;
+  margin-top: 500px;
 }
 
 /* Styling for the book title */
@@ -173,7 +182,7 @@ button:hover {
 /* Styling for the book cover image */
 .single-book img.cover {
   box-shadow: 2px 2px 8px black;
-  max-width: 50%;
+  max-width: 400px;
   height: auto;
   border-radius: 25px;
   margin: 10px 0;
@@ -191,8 +200,10 @@ button:hover {
 
 /* Container for Book Display */
 #container {
+  margin-top: 300px;
   text-shadow: 2px 2px 8px black;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
@@ -212,7 +223,7 @@ button:hover {
 
 /* Styling for the book image */
 .single-book-card img {
-  max-width: 100%;
+  max-width: 50%;
   height: auto;
   border-radius: 10px;
   margin-bottom: 20px;
@@ -235,12 +246,26 @@ button:hover {
 }
 #description {
   width: fit-content;
-  max-width: 400px;
-  font-size: 20px;
+  max-width: 2000px;
+  font-size: 22px;
   align-self: center; /* Centers the element within a flex container */
   justify-self: center;
   text-align: center; /* Centers text inside the description box */
   text-shadow: 2px 2px 8px black;
+  margin-right: 20px;
+  margin-bottom: 0px;
+  margin-top: 50px;
+}
+.checkout-button {
+  width: 100px;
+  font-size: 1.1rem;
+  color: #fff;
+  background-color: #2e8b57;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 4px 4px 2px black;
+  border: none;
 }
 .availability-status {
   display: flex;
@@ -333,7 +358,6 @@ button:hover {
   justify-content: center;
   align-content: center;
   margin: 20px 0;
-  margin-top: 220px;
 }
 
 .search input {
@@ -377,7 +401,7 @@ button:hover {
 }
 
 .logingin {
-  background-color: #061300;
+  background-image: url(components/upclose.png);
   padding: 20px;
   padding-top: 40px;
   border-radius: 10px;
@@ -494,6 +518,11 @@ button:hover {
   transition: background-color 0.3s ease;
   box-shadow: 4px 4px 2px black;
   border: none;
+  margin-bottom: 50px;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block; /* Ensure the button takes up only the necessary width and is centered */
 }
 
 .logout-button:hover {
@@ -523,7 +552,7 @@ button:hover {
 }
 
 #container {
-  position: relative;
+  margin-top: 101px;
 }
 
 .main-div {
@@ -534,8 +563,6 @@ button:hover {
 
 .all-books {
   cursor: pointer;
-  position: relative;
-  z-index: 1;
 }
 
 .all-books img {

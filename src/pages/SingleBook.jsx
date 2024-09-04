@@ -42,14 +42,15 @@ export default function SingleBook({ token }) {
                 <p className="green-text">This book is available.</p>
               ) : (
                 <p className="red-text">This book is currently unavailable.</p>
-              )}
+              )}{" "}
+              {token && book.available && !isCheckedOut && (
+                <button className="checkout-button" onClick={handleCheckout}>
+                  Check out
+                </button>
+              )}{" "}
+              {isCheckedOut && <p className="red-text">Checked out</p>}
             </div>
-            {token && book.available && !isCheckedOut && (
-              <button className="checkout-button" onClick={handleCheckout}>
-                Check out
-              </button>
-            )}
-            {isCheckedOut && <p className="red-text">Checked out</p>}
+
             {!token && book.available && (
               <p className="red-text">
                 Please log in or register to check out this title.
